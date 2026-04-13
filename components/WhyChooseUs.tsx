@@ -235,22 +235,33 @@ export default function WhyChooseUs({ className }: { className?: string }) {
 
         @media (min-width: 768px) {
           section#features {
-            padding: 96px 40px;
+            padding: 96px 32px;
           }
           .why-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: 32px;
             align-items: stretch;
           }
           .why-image-col {
-            min-height: 520px;
+            min-height: 400px;
           }
           .why-features-col {
             height: 100%;
           }
           .feature-row {
             flex: 1;
+          }
+        }
+        @media (min-width: 1024px) {
+          section#features {
+            padding: 96px 40px;
+          }
+          .why-grid {
+            gap: 40px;
+          }
+          .why-image-col {
+            min-height: 520px;
           }
         }
       `}</style>

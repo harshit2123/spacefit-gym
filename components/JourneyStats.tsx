@@ -119,6 +119,10 @@ export default function JourneyStats({ className }: { className?: string }) {
           text-align:     right;
         }
         @media (min-width: 768px) {
+          .stats-section { padding: 96px 32px; }
+          .stat-row { padding: 40px 40px; }
+        }
+        @media (min-width: 1024px) {
           .stats-section { padding: 96px 40px; }
           .stat-row { padding: 48px 60px; }
         }

@@ -248,39 +248,35 @@ export default function Pricing({ className }: { className?: string }) {
           flex-direction: column;
           gap: 20px;
         }
-        @media (min-width: 640px) {
-          .pricing-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            align-items: stretch;
-          }
-          .pricing-card:nth-child(2) {
-            grid-column: span 2;
-            max-width: 480px;
-            margin: 0 auto;
-            width: 100%;
-          }
-        }
-        @media (min-width: 900px) {
+        @media (min-width: 768px) {
           .pricing-section {
-            padding: 96px 40px;
+            padding: 96px 32px;
           }
           .pricing-grid {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: stretch;
+            gap: 20px;
+          }
+          .pricing-card {
+            flex: 1 1 0;
+            min-width: 0;
+          }
+          .pricing-card:nth-child(2) {
+            max-width: unset;
+            margin: 0;
+          }
+        }
+        @media (min-width: 1024px) {
+          .pricing-section {
+            padding: 96px 40px;
+          }
+          .pricing-grid {
             gap: 24px;
           }
           .pricing-card {
-            flex: 1 1 300px;
             max-width: 420px;
-          }
-          .pricing-card:nth-child(2) {
-            grid-column: unset;
-            max-width: 420px;
-            margin: 0;
           }
         }
       `}</style>

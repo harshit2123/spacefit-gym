@@ -175,7 +175,10 @@ export default function GlobalPresence({ className }: { className?: string }) {
             grid-column: span 1;
           }
         }
-        @media (min-width: 900px) {
+        @media (min-width: 768px) {
+          .global-section { padding: 96px 32px; }
+        }
+        @media (min-width: 1024px) {
           .global-section { padding: 96px 40px; }
           .expansion-grid {
             grid-template-columns: repeat(5, 1fr);

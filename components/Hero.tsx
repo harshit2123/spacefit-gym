@@ -322,17 +322,27 @@ export default function Hero({ className }: { className?: string }) {
 
         .hero-subnav div::-webkit-scrollbar { display: none; }
 
-        /* ── Desktop ── */
+        /* ── iPad ── */
         @media (min-width: 768px) {
           .hero-section          { min-height: 100dvh; }
-          .hero-image-panel      { display: block; }
+          .hero-image-panel      { display: block; width: 50%; }
           .hero-scroll-indicator { display: flex; }
 
           .hero-content {
-            padding: 80px 40px !important;
+            padding: 80px 32px !important;
             align-items: center !important;
             flex: 1 !important;
           }
+          .hero-text-block {
+            max-width: 46%;
+          }
+        }
+
+        /* ── Desktop ── */
+        @media (min-width: 1024px) {
+          .hero-image-panel { width: 55%; }
+          .hero-content     { padding: 80px 40px !important; }
+          .hero-text-block  { max-width: 580px; }
         }
       `}</style>
     </section>

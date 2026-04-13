@@ -355,26 +355,34 @@ export default function Footer({ className }: { className?: string }) {
         }
 
         @media (min-width: 768px) {
-          .footer-root { padding: 80px 40px 40px; }
+          .footer-root { padding: 80px 32px 40px; }
           .footer-bottom {
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
           }
-        }
-
-        @media (min-width: 900px) {
           .footer-grid {
             display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+          }
+          .footer-nav {
+            display: flex;
+            gap: 40px;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .footer-root { padding: 80px 40px 40px; }
+          .footer-grid {
             grid-template-columns: 1fr auto;
             gap: 80px;
-            align-items: start;
           }
           .footer-brand {
             max-width: 480px;
           }
           .footer-nav {
-            display: flex;
             gap: 64px;
           }
         }
