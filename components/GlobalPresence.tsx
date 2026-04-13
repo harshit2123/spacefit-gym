@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 const locations = [
-  { city: "Sukhlia, Indore",       country: "HQ · 2026",  active: true  },
+  { city: "Sukhlia, Indore",       country: "HQ · 2026",      active: true  },
   { city: "Vijay Nagar, Indore",   country: "Centre 2 · 2028", active: false },
   { city: "Bhopal",                country: "Centre 3 · 2029", active: false },
   { city: "Jaipur",                country: "Centre 4 · 2030", active: false },
@@ -30,11 +30,11 @@ export default function GlobalPresence({ className }: { className?: string }) {
     <section
       ref={sectionRef}
       id="global"
-      className={className}
+      className={`global-section ${className ?? ""}`}
       style={{
         position:        "relative",
         backgroundColor: "var(--bg-primary)",
-        padding:         "96px 40px",
+        padding:         "80px 20px",
         overflow:        "hidden",
       }}
     >
@@ -57,7 +57,7 @@ export default function GlobalPresence({ className }: { className?: string }) {
             display:        "flex",
             justifyContent: "space-between",
             alignItems:     "flex-end",
-            marginBottom:   "64px",
+            marginBottom:   "48px",
             flexWrap:       "wrap",
             gap:            "16px",
           }}
@@ -68,7 +68,7 @@ export default function GlobalPresence({ className }: { className?: string }) {
               style={{
                 fontFamily:    "var(--font-display)",
                 fontWeight:    900,
-                fontSize:      "clamp(2.5rem, 7vw, 5.5rem)",
+                fontSize:      "clamp(2.2rem, 8vw, 5.5rem)",
                 lineHeight:    0.95,
                 letterSpacing: "-0.03em",
                 textTransform: "uppercase",
@@ -87,17 +87,12 @@ export default function GlobalPresence({ className }: { className?: string }) {
         {/* Locations grid */}
         <div
           className="reveal expansion-grid"
-          style={{
-            display:             "grid",
-            gridTemplateColumns: "repeat(5, 1fr)",
-            gap:                 "16px",
-          }}
         >
           {locations.map((loc, i) => (
             <div
               key={loc.city}
               style={{
-                padding:         "24px",
+                padding:         "24px 20px",
                 borderRadius:    "16px",
                 border:          loc.active ? "1px solid rgba(0,255,46,0.4)" : "1px solid var(--border-default)",
                 backgroundColor: loc.active ? "#0d1f00" : "var(--bg-tertiary)",
@@ -121,14 +116,14 @@ export default function GlobalPresence({ className }: { className?: string }) {
             >
               {loc.active && (
                 <span style={{
-                  position:      "absolute",
-                  top:           "12px",
-                  right:         "12px",
-                  width:         "6px",
-                  height:        "6px",
-                  borderRadius:  "50%",
+                  position:        "absolute",
+                  top:             "12px",
+                  right:           "12px",
+                  width:           "6px",
+                  height:          "6px",
+                  borderRadius:    "50%",
                   backgroundColor: "var(--neon)",
-                  boxShadow:     "0 0 8px var(--neon)",
+                  boxShadow:       "0 0 8px var(--neon)",
                 }} />
               )}
               <p
@@ -148,10 +143,11 @@ export default function GlobalPresence({ className }: { className?: string }) {
                 style={{
                   fontFamily:    "var(--font-display)",
                   fontWeight:    700,
-                  fontSize:      "1.1rem",
+                  fontSize:      "1rem",
                   letterSpacing: "-0.01em",
                   textTransform: "uppercase",
                   color:         loc.active ? "var(--text-primary)" : "var(--text-tertiary)",
+                  lineHeight:    1.2,
                 }}
               >
                 {loc.city}
@@ -162,11 +158,32 @@ export default function GlobalPresence({ className }: { className?: string }) {
       </div>
 
       <style>{`
-        @media (max-width: 900px) {
-          .expansion-grid { grid-template-columns: repeat(3, 1fr) !important; }
+        .expansion-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
         }
-        @media (max-width: 600px) {
-          .expansion-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        /* HQ card spans full width on mobile */
+        .expansion-grid > div:first-child {
+          grid-column: span 2;
+        }
+        @media (min-width: 640px) {
+          .expansion-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+          .expansion-grid > div:first-child {
+            grid-column: span 1;
+          }
+        }
+        @media (min-width: 900px) {
+          .global-section { padding: 96px 40px; }
+          .expansion-grid {
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+          }
+          .expansion-grid > div:first-child {
+            grid-column: span 1;
+          }
         }
       `}</style>
     </section>

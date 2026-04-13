@@ -27,8 +27,8 @@ export default function JourneyStats({ className }: { className?: string }) {
     <section
       ref={sectionRef}
       id="stats"
-      className={className}
-      style={{ backgroundColor: "var(--bg-primary)", padding: "96px 40px" }}
+      className={`stats-section ${className ?? ""}`}
+      style={{ backgroundColor: "var(--bg-primary)", padding: "80px 20px" }}
     >
       <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
         {/* Header */}
@@ -38,7 +38,7 @@ export default function JourneyStats({ className }: { className?: string }) {
             display:        "flex",
             justifyContent: "space-between",
             alignItems:     "flex-end",
-            marginBottom:   "56px",
+            marginBottom:   "48px",
             flexWrap:       "wrap",
             gap:            "16px",
           }}
@@ -49,7 +49,7 @@ export default function JourneyStats({ className }: { className?: string }) {
               style={{
                 fontFamily:    "var(--font-display)",
                 fontWeight:    900,
-                fontSize:      "clamp(2.5rem, 5vw, 4rem)",
+                fontSize:      "clamp(2.2rem, 7vw, 4rem)",
                 lineHeight:    1,
                 letterSpacing: "-0.02em",
                 textTransform: "uppercase",
@@ -67,7 +67,7 @@ export default function JourneyStats({ className }: { className?: string }) {
           className="reveal"
           style={{
             width:        "100%",
-            borderRadius: "24px",
+            borderRadius: "20px",
             border:       "1px solid var(--border-default)",
             background:   "linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%)",
             overflow:     "hidden",
@@ -78,39 +78,11 @@ export default function JourneyStats({ className }: { className?: string }) {
               {i > 0 && (
                 <div style={{ height: "1px", backgroundColor: "rgba(134,134,139,0.2)" }} />
               )}
-              <div
-                style={{
-                  padding:        "48px 60px",
-                  display:        "flex",
-                  alignItems:     "center",
-                  justifyContent: "space-between",
-                  flexWrap:       "wrap",
-                  gap:            "16px",
-                }}
-              >
-                <p
-                  style={{
-                    fontFamily:    "var(--font-display)",
-                    fontWeight:    900,
-                    fontSize:      "clamp(4rem, 10vw, 8rem)",
-                    lineHeight:    1,
-                    letterSpacing: "-0.03em",
-                    color:         "var(--text-primary)",
-                    textTransform: "uppercase",
-                  }}
-                >
+              <div className="stat-row">
+                <p className="stat-value">
                   {stat.value}
                 </p>
-                <p
-                  style={{
-                    fontFamily:    "var(--font-body)",
-                    fontWeight:    400,
-                    fontSize:      "1.125rem",
-                    color:         "var(--text-secondary)",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.06em",
-                  }}
-                >
+                <p className="stat-label">
                   {stat.label}
                 </p>
               </div>
@@ -118,6 +90,39 @@ export default function JourneyStats({ className }: { className?: string }) {
           ))}
         </div>
       </div>
+
+      <style>{`
+        .stat-row {
+          padding: 32px 24px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+        .stat-value {
+          font-family:    var(--font-display);
+          font-weight:    900;
+          font-size:      clamp(3rem, 12vw, 8rem);
+          line-height:    1;
+          letter-spacing: -0.03em;
+          color:          var(--text-primary);
+          text-transform: uppercase;
+        }
+        .stat-label {
+          font-family:    var(--font-body);
+          font-weight:    400;
+          font-size:      clamp(0.75rem, 2.5vw, 1.125rem);
+          color:          var(--text-secondary);
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+          text-align:     right;
+        }
+        @media (min-width: 768px) {
+          .stats-section { padding: 96px 40px; }
+          .stat-row { padding: 48px 60px; }
+        }
+      `}</style>
     </section>
   );
 }

@@ -12,7 +12,6 @@ const navItems = [
   { label: "Membership", href: "/#pricing",  section: "pricing" },
 ];
 
-// section IDs in order — used to determine which is "active" on scroll
 const SECTION_IDS = ["pricing", "classes", "features"];
 
 function useScrolled(threshold = 10) {
@@ -29,7 +28,6 @@ function useActiveSection() {
   const [active, setActive] = useState<string | null>(null);
   useEffect(() => {
     const handler = () => {
-      // find the first section (from bottom up) whose top is above mid-screen
       const mid = window.innerHeight / 2;
       for (const id of SECTION_IDS) {
         const el = document.getElementById(id);
@@ -38,33 +36,30 @@ function useActiveSection() {
           return;
         }
       }
-      setActive(null); // near top — Home active
+      setActive(null);
     };
     window.addEventListener("scroll", handler, { passive: true });
-    handler(); // run on mount
+    handler();
     return () => window.removeEventListener("scroll", handler);
   }, []);
   return active;
 }
 
 export default function Navbar({ className }: { className?: string }) {
-  const pathname  = usePathname();
-  const scrolled  = useScrolled();
+  const pathname      = usePathname();
+  const scrolled      = useScrolled();
   const activeSection = useActiveSection();
   const [open, setOpen]   = useState(false);
   const hamburgerRef      = useRef<HTMLButtonElement>(null);
   const firstLinkRef      = useRef<HTMLAnchorElement>(null);
 
-  // Focus management
   useEffect(() => {
     if (open) firstLinkRef.current?.focus();
     else      hamburgerRef.current?.focus();
   }, [open]);
 
-  // Close on route change
   useEffect(() => { setOpen(false); }, [pathname]);
 
-  // Prevent body scroll when drawer open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -97,7 +92,7 @@ export default function Navbar({ className }: { className?: string }) {
             maxWidth:       "1280px",
             margin:         "0 auto",
             height:         "100%",
-            padding:        "0 40px",
+            padding:        "0 20px",
             display:        "flex",
             alignItems:     "center",
             justifyContent: "space-between",
@@ -150,7 +145,9 @@ export default function Navbar({ className }: { className?: string }) {
             className="hidden-mobile"
           >
             {navItems.map((item) => {
-              const active = item.section ? activeSection === item.section : (pathname === "/" && activeSection === null);
+              const active = item.section
+                ? activeSection === item.section
+                : pathname === "/" && activeSection === null;
               return (
                 <li key={item.label}>
                   <Link
@@ -176,7 +173,6 @@ export default function Navbar({ className }: { className?: string }) {
                     }}
                   >
                     {item.label}
-                    {/* Active neon dot */}
                     {active && (
                       <span
                         aria-hidden="true"
@@ -199,11 +195,11 @@ export default function Navbar({ className }: { className?: string }) {
             })}
           </ul>
 
-          {/* Desktop CTA */}
+          {/* Right side */}
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <Link
               href="/contact"
-              className="btn-primary"
+              className="btn-primary hidden-mobile"
               style={{ padding: "10px 22px", fontSize: "0.8125rem" }}
             >
               Get a Tour
@@ -217,7 +213,7 @@ export default function Navbar({ className }: { className?: string }) {
               aria-controls="mobile-drawer"
               onClick={() => setOpen((v) => !v)}
               style={{
-                display:        "none",
+                display:        "flex",
                 width:          "40px",
                 height:         "40px",
                 flexDirection:  "column",
@@ -276,14 +272,14 @@ export default function Navbar({ className }: { className?: string }) {
         aria-label="Navigation menu"
         aria-modal="true"
         style={{
-          position:   "fixed",
-          inset:      0,
-          zIndex:     40,
+          position:        "fixed",
+          inset:           0,
+          zIndex:          40,
           backgroundColor: "var(--bg-primary)",
-          display:    "flex",
-          flexDirection: "column",
-          transform:  open ? "translateY(0)" : "translateY(-100%)",
-          transition: "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+          display:         "flex",
+          flexDirection:   "column",
+          transform:       open ? "translateY(0)" : "translateY(-100%)",
+          transition:      "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
         }}
         className="mobile-drawer"
       >
@@ -291,7 +287,7 @@ export default function Navbar({ className }: { className?: string }) {
         <div
           style={{
             height:         "64px",
-            padding:        "0 24px",
+            padding:        "0 20px",
             display:        "flex",
             alignItems:     "center",
             justifyContent: "space-between",
@@ -326,16 +322,16 @@ export default function Navbar({ className }: { className?: string }) {
             onClick={() => setOpen(false)}
             aria-label="Close menu"
             style={{
-              width:       "40px",
-              height:      "40px",
-              display:     "flex",
-              alignItems:  "center",
-              justifyContent:"center",
-              background:  "transparent",
-              border:      "none",
-              cursor:      "pointer",
-              color:       "var(--text-secondary)",
-              fontSize:    "1.25rem",
+              width:          "40px",
+              height:         "40px",
+              display:        "flex",
+              alignItems:     "center",
+              justifyContent: "center",
+              background:     "transparent",
+              border:         "none",
+              cursor:         "pointer",
+              color:          "var(--text-secondary)",
+              fontSize:       "1.25rem",
             }}
           >
             ✕
@@ -343,9 +339,11 @@ export default function Navbar({ className }: { className?: string }) {
         </div>
 
         {/* Drawer links */}
-        <nav style={{ flex: 1, padding: "16px 24px 32px", display: "flex", flexDirection: "column", gap: "4px" }}>
+        <nav style={{ flex: 1, padding: "16px 20px 32px", display: "flex", flexDirection: "column", gap: "4px" }}>
           {navItems.map((item, i) => {
-            const active = item.section ? activeSection === item.section : (pathname === "/" && activeSection === null);
+            const active = item.section
+              ? activeSection === item.section
+              : pathname === "/" && activeSection === null;
             return (
               <Link
                 key={item.label}
@@ -355,20 +353,20 @@ export default function Navbar({ className }: { className?: string }) {
                 onClick={() => setOpen(false)}
                 className="animate-slideDown"
                 style={{
-                  display:         "flex",
-                  alignItems:      "center",
-                  justifyContent:  "space-between",
-                  padding:         "16px 0",
-                  borderBottom:    "1px solid var(--border-default)",
-                  fontFamily:      "var(--font-body)",
-                  fontSize:        "1.125rem",
-                  fontWeight:      500,
-                  letterSpacing:   "0.04em",
-                  textTransform:   "uppercase",
-                  textDecoration:  "none",
-                  color:           active ? "var(--neon)" : "var(--text-secondary)",
-                  animationDelay:  `${i * 80}ms`,
-                  transition:      "color 0.2s ease-out",
+                  display:        "flex",
+                  alignItems:     "center",
+                  justifyContent: "space-between",
+                  padding:        "16px 0",
+                  borderBottom:   "1px solid var(--border-default)",
+                  fontFamily:     "var(--font-body)",
+                  fontSize:       "1.125rem",
+                  fontWeight:     500,
+                  letterSpacing:  "0.04em",
+                  textTransform:  "uppercase",
+                  textDecoration: "none",
+                  color:          active ? "var(--neon)" : "var(--text-secondary)",
+                  animationDelay: `${i * 80}ms`,
+                  transition:     "color 0.2s ease-out",
                 }}
               >
                 {item.label}
@@ -379,7 +377,7 @@ export default function Navbar({ className }: { className?: string }) {
         </nav>
 
         {/* Drawer CTA */}
-        <div style={{ padding: "0 24px 40px" }}>
+        <div style={{ padding: "0 20px 40px" }}>
           <Link
             href="/contact"
             className="btn-primary"
@@ -399,6 +397,7 @@ export default function Navbar({ className }: { className?: string }) {
         @media (min-width: 1024px) {
           .mobile-drawer { display: none !important; }
           .show-mobile   { display: none !important; }
+          nav { padding: 0 40px !important; }
         }
       `}</style>
     </>

@@ -50,16 +50,15 @@ const plans: PlanProps[] = [
 function PricingCard({ name, price, features, highlighted }: PlanProps) {
   return (
     <div
+      className="pricing-card"
       style={{
-        flex:            "1 1 300px",
-        maxWidth:        "420px",
         borderRadius:    "20px",
         border:          highlighted ? "2px solid var(--neon)" : "1px solid var(--border-default)",
         backgroundColor: highlighted ? "#0d1f00" : "var(--bg-tertiary)",
-        padding:         "40px 32px",
+        padding:         "32px 24px",
         display:         "flex",
         flexDirection:   "column",
-        gap:             "24px",
+        gap:             "20px",
         boxShadow:       highlighted
           ? "0 0 0 1px var(--neon), 0 0 24px rgba(0,255,46,0.15), var(--shadow-lg)"
           : "var(--shadow-md)",
@@ -101,7 +100,7 @@ function PricingCard({ name, price, features, highlighted }: PlanProps) {
           style={{
             fontFamily:    "var(--font-display)",
             fontWeight:    700,
-            fontSize:      "1.25rem",
+            fontSize:      "1.125rem",
             letterSpacing: "0.04em",
             textTransform: "uppercase",
             color:         highlighted ? "var(--neon)" : "var(--text-primary)",
@@ -115,7 +114,7 @@ function PricingCard({ name, price, features, highlighted }: PlanProps) {
             style={{
               fontFamily:    "var(--font-display)",
               fontWeight:    800,
-              fontSize:      "3.5rem",
+              fontSize:      "clamp(2.5rem, 6vw, 3.5rem)",
               lineHeight:    1,
               letterSpacing: "-0.02em",
               color:         "var(--text-primary)",
@@ -125,11 +124,11 @@ function PricingCard({ name, price, features, highlighted }: PlanProps) {
           </span>
           <span
             style={{
-              fontFamily:   "var(--font-body)",
-              fontWeight:   500,
-              fontSize:     "1rem",
-              color:        "var(--text-tertiary)",
-              paddingBottom:"6px",
+              fontFamily:    "var(--font-body)",
+              fontWeight:    500,
+              fontSize:      "0.9375rem",
+              color:         "var(--text-tertiary)",
+              paddingBottom: "4px",
             }}
           >
             /yr
@@ -145,14 +144,15 @@ function PricingCard({ name, price, features, highlighted }: PlanProps) {
             key={f}
             style={{
               display:    "flex",
-              alignItems: "center",
+              alignItems: "flex-start",
               gap:        "10px",
               fontFamily: "var(--font-body)",
-              fontSize:   "0.9375rem",
+              fontSize:   "0.9rem",
               color:      "var(--text-secondary)",
+              lineHeight: 1.4,
             }}
           >
-            <span style={{ color: "var(--neon)", flexShrink: 0 }}>✓</span>
+            <span style={{ color: "var(--neon)", flexShrink: 0, marginTop: "1px" }}>✓</span>
             {f}
           </li>
         ))}
@@ -188,17 +188,17 @@ export default function Pricing({ className }: { className?: string }) {
     <section
       ref={sectionRef}
       id="pricing"
-      className={className}
-      style={{ backgroundColor: "var(--bg-secondary)", padding: "96px 40px" }}
+      className={`pricing-section ${className ?? ""}`}
+      style={{ backgroundColor: "var(--bg-secondary)", padding: "80px 20px" }}
     >
       <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-        <div className="reveal" style={{ textAlign: "center", marginBottom: "64px" }}>
+        <div className="reveal" style={{ textAlign: "center", marginBottom: "48px" }}>
           <p className="section-label" style={{ marginBottom: "12px" }}>03 / Membership</p>
           <h2
             style={{
               fontFamily:    "var(--font-display)",
               fontWeight:    900,
-              fontSize:      "clamp(2.5rem, 5vw, 4rem)",
+              fontSize:      "clamp(2.2rem, 7vw, 4rem)",
               lineHeight:    1,
               letterSpacing: "-0.02em",
               textTransform: "uppercase",
@@ -212,24 +212,18 @@ export default function Pricing({ className }: { className?: string }) {
           <p
             style={{
               fontFamily: "var(--font-body)",
-              fontSize:   "1rem",
+              fontSize:   "0.9375rem",
               color:      "var(--text-secondary)",
+              maxWidth:   "480px",
+              margin:     "0 auto",
+              lineHeight: 1.6,
             }}
           >
             Annual membership. No hidden fees. Breakeven at 351 members — join the founding cohort.
           </p>
         </div>
 
-        <div
-          className="reveal"
-          style={{
-            display:        "flex",
-            gap:            "24px",
-            justifyContent: "center",
-            flexWrap:       "wrap",
-            alignItems:     "stretch",
-          }}
-        >
+        <div className="reveal pricing-grid">
           {plans.map((p) => (
             <PricingCard key={p.name} {...p} />
           ))}
@@ -237,7 +231,7 @@ export default function Pricing({ className }: { className?: string }) {
 
         <div
           className="reveal"
-          style={{ textAlign: "center", marginTop: "48px" }}
+          style={{ textAlign: "center", marginTop: "40px" }}
         >
           <p style={{ fontFamily: "var(--font-body)", fontSize: "0.875rem", color: "var(--text-tertiary)", marginBottom: "16px" }}>
             Corporate wellness packages available. Blended ARPU ₹16,000/yr.
@@ -247,6 +241,49 @@ export default function Pricing({ className }: { className?: string }) {
           </Link>
         </div>
       </div>
+
+      <style>{`
+        .pricing-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+        @media (min-width: 640px) {
+          .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: stretch;
+          }
+          .pricing-card:nth-child(2) {
+            grid-column: span 2;
+            max-width: 480px;
+            margin: 0 auto;
+            width: 100%;
+          }
+        }
+        @media (min-width: 900px) {
+          .pricing-section {
+            padding: 96px 40px;
+          }
+          .pricing-grid {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: stretch;
+            gap: 24px;
+          }
+          .pricing-card {
+            flex: 1 1 300px;
+            max-width: 420px;
+          }
+          .pricing-card:nth-child(2) {
+            grid-column: unset;
+            max-width: 420px;
+            margin: 0;
+          }
+        }
+      `}</style>
     </section>
   );
 }

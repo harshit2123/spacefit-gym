@@ -29,8 +29,8 @@ export default function PremiumServices({ className }: { className?: string }) {
     <section
       ref={sectionRef}
       id="classes"
-      className={className}
-      style={{ backgroundColor: "var(--bg-primary)", padding: "96px 40px" }}
+      className={`services-section ${className ?? ""}`}
+      style={{ backgroundColor: "var(--bg-primary)", padding: "80px 20px" }}
     >
       <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
         {/* Header */}
@@ -40,7 +40,7 @@ export default function PremiumServices({ className }: { className?: string }) {
             display:        "flex",
             justifyContent: "space-between",
             alignItems:     "flex-end",
-            marginBottom:   "56px",
+            marginBottom:   "48px",
             flexWrap:       "wrap",
             gap:            "16px",
           }}
@@ -51,7 +51,7 @@ export default function PremiumServices({ className }: { className?: string }) {
               style={{
                 fontFamily:    "var(--font-display)",
                 fontWeight:    900,
-                fontSize:      "clamp(2.5rem, 5vw, 4rem)",
+                fontSize:      "clamp(2.2rem, 7vw, 4rem)",
                 lineHeight:    1,
                 letterSpacing: "-0.02em",
                 textTransform: "uppercase",
@@ -68,28 +68,21 @@ export default function PremiumServices({ className }: { className?: string }) {
         </div>
 
         {/* Cards grid */}
-        <div
-          style={{
-            display:             "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-            gap:                 "20px",
-          }}
-        >
+        <div className="services-grid">
           {services.map((s, i) => (
             <Link
               key={s.name}
               href={s.href}
               className="reveal service-card"
               style={{
-                position:        "relative",
-                height:          "380px",
-                borderRadius:    "20px",
-                overflow:        "hidden",
-                border:          "1px solid var(--border-default)",
-                textDecoration:  "none",
-                display:         "block",
-                animationDelay:  `${i * 80}ms`,
-                transition:      "border-color 0.3s ease-out, transform 0.3s ease-out",
+                position:       "relative",
+                borderRadius:   "20px",
+                overflow:       "hidden",
+                border:         "1px solid var(--border-default)",
+                textDecoration: "none",
+                display:        "block",
+                animationDelay: `${i * 80}ms`,
+                transition:     "border-color 0.3s ease-out, transform 0.3s ease-out",
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLElement;
@@ -105,9 +98,9 @@ export default function PremiumServices({ className }: { className?: string }) {
               {/* Card image placeholder */}
               <div
                 style={{
-                  position:   "absolute",
-                  inset:      0,
+                  paddingTop: "62%",
                   background: `linear-gradient(135deg, #${["2a3a2a","1a2a3a","2a1a3a","3a2a1a"][i]} 0%, #111 100%)`,
+                  position:   "relative",
                 }}
               />
 
@@ -116,17 +109,17 @@ export default function PremiumServices({ className }: { className?: string }) {
                 style={{
                   position:   "absolute",
                   inset:      0,
-                  background: "linear-gradient(to bottom, rgba(0,0,0,0) 20%, rgba(0,0,0,0.85) 70%, #000 100%)",
+                  background: "linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,0.85) 70%, #000 100%)",
                 }}
               />
 
               {/* Content */}
               <div
                 style={{
-                  position:  "absolute",
-                  bottom:    "24px",
-                  left:      "24px",
-                  right:     "24px",
+                  position: "absolute",
+                  bottom:   "20px",
+                  left:     "20px",
+                  right:    "20px",
                 }}
               >
                 <div
@@ -134,14 +127,14 @@ export default function PremiumServices({ className }: { className?: string }) {
                     display:        "flex",
                     justifyContent: "space-between",
                     alignItems:     "flex-end",
-                    marginBottom:   "12px",
+                    marginBottom:   "10px",
                   }}
                 >
                   <p
                     style={{
                       fontFamily: "var(--font-body)",
                       fontWeight: 600,
-                      fontSize:   "1.125rem",
+                      fontSize:   "1rem",
                       color:      "var(--text-primary)",
                       lineHeight: 1.2,
                     }}
@@ -167,15 +160,15 @@ export default function PremiumServices({ className }: { className?: string }) {
                   </span>
                 </div>
 
-                <div style={{ height: "1px", backgroundColor: "rgba(255,255,255,0.1)", marginBottom: "10px" }} />
+                <div style={{ height: "1px", backgroundColor: "rgba(255,255,255,0.1)", marginBottom: "8px" }} />
 
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px" }}>
                   <span
                     style={{
                       fontFamily:    "var(--font-mono)",
-                      fontSize:      "0.75rem",
+                      fontSize:      "0.6875rem",
                       color:         "var(--neon)",
-                      letterSpacing: "0.05em",
+                      letterSpacing: "0.04em",
                     }}
                   >
                     {s.slots}
@@ -183,10 +176,11 @@ export default function PremiumServices({ className }: { className?: string }) {
                   <span
                     style={{
                       fontFamily:    "var(--font-body)",
-                      fontSize:      "0.75rem",
+                      fontSize:      "0.6875rem",
                       color:         "var(--text-tertiary)",
                       letterSpacing: "0.05em",
                       textTransform: "uppercase",
+                      flexShrink:    0,
                     }}
                   >
                     Book Now
@@ -197,6 +191,28 @@ export default function PremiumServices({ className }: { className?: string }) {
           ))}
         </div>
       </div>
+
+      <style>{`
+        .services-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+        }
+        @media (max-width: 480px) {
+          .services-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+        @media (min-width: 768px) {
+          .services-section {
+            padding: 96px 40px;
+          }
+          .services-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+          }
+        }
+      `}</style>
     </section>
   );
 }

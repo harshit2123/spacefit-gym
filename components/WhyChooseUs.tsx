@@ -54,17 +54,17 @@ export default function WhyChooseUs({ className }: { className?: string }) {
       ref={sectionRef}
       id="features"
       className={className}
-      style={{ backgroundColor: "var(--bg-primary)", padding: "96px 40px" }}
+      style={{ backgroundColor: "var(--bg-primary)", padding: "80px 20px" }}
     >
       <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
         {/* Section header */}
         <div
-          className="reveal"
+          className="reveal why-header"
           style={{
             display:        "flex",
             justifyContent: "space-between",
             alignItems:     "flex-end",
-            marginBottom:   "56px",
+            marginBottom:   "48px",
             flexWrap:       "wrap",
             gap:            "16px",
           }}
@@ -75,7 +75,7 @@ export default function WhyChooseUs({ className }: { className?: string }) {
               style={{
                 fontFamily:    "var(--font-display)",
                 fontWeight:    900,
-                fontSize:      "clamp(2.5rem, 5vw, 4rem)",
+                fontSize:      "clamp(2.2rem, 7vw, 4rem)",
                 lineHeight:    1,
                 letterSpacing: "-0.02em",
                 textTransform: "uppercase",
@@ -96,21 +96,12 @@ export default function WhyChooseUs({ className }: { className?: string }) {
         </div>
 
         {/* Two-col layout */}
-        <div
-          style={{
-            display:             "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap:                 "40px",
-            alignItems:          "stretch",
-          }}
-          className="why-grid"
-        >
+        <div className="why-grid">
           {/* Left — image placeholder */}
           <div
-            className="reveal"
+            className="reveal why-image-col"
             style={{
               width:        "100%",
-              minHeight:    "520px",
               background:   "linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%)",
               borderRadius: "20px",
               border:       "1px solid var(--border-default)",
@@ -147,7 +138,7 @@ export default function WhyChooseUs({ className }: { className?: string }) {
                 style={{
                   fontFamily:    "var(--font-display)",
                   fontWeight:    800,
-                  fontSize:      "2.5rem",
+                  fontSize:      "clamp(1.8rem, 5vw, 2.5rem)",
                   letterSpacing: "-0.02em",
                   color:         "var(--neon)",
                   lineHeight:    1,
@@ -162,7 +153,7 @@ export default function WhyChooseUs({ className }: { className?: string }) {
           </div>
 
           {/* Right — feature list */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px", height: "100%" }}>
+          <div className="why-features-col">
             {features.map((f, i) => (
               <Link
                 key={f.label}
@@ -172,7 +163,7 @@ export default function WhyChooseUs({ className }: { className?: string }) {
                   display:         "flex",
                   alignItems:      "center",
                   justifyContent:  "space-between",
-                  padding:         "24px 32px",
+                  padding:         "20px 24px",
                   borderRadius:    "16px",
                   border:          "1px solid var(--border-default)",
                   backgroundColor: "var(--bg-tertiary)",
@@ -180,7 +171,6 @@ export default function WhyChooseUs({ className }: { className?: string }) {
                   transition:      "border-color 0.3s ease-out, background 0.3s ease-out, transform 0.2s ease-out",
                   animationDelay:  `${i * 100}ms`,
                   cursor:          "pointer",
-                  flex:            1,
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement;
@@ -195,14 +185,14 @@ export default function WhyChooseUs({ className }: { className?: string }) {
                   el.style.transform       = "translateX(0)";
                 }}
               >
-                <div>
+                <div style={{ flex: 1, minWidth: 0, marginRight: "12px" }}>
                   <p
                     style={{
-                      fontFamily:  "var(--font-body)",
-                      fontWeight:  600,
-                      fontSize:    "1.0625rem",
-                      color:       "var(--text-primary)",
-                      marginBottom:"4px",
+                      fontFamily:   "var(--font-body)",
+                      fontWeight:   600,
+                      fontSize:     "1rem",
+                      color:        "var(--text-primary)",
+                      marginBottom: "4px",
                     }}
                   >
                     {f.label}
@@ -218,7 +208,7 @@ export default function WhyChooseUs({ className }: { className?: string }) {
                     {f.desc}
                   </p>
                 </div>
-                <span style={{ color: "var(--neon)", flexShrink: 0, marginLeft: "16px" }}>
+                <span style={{ color: "var(--neon)", flexShrink: 0 }}>
                   <ArrowIcon />
                 </span>
               </Link>
@@ -228,8 +218,40 @@ export default function WhyChooseUs({ className }: { className?: string }) {
       </div>
 
       <style>{`
-        @media (max-width: 768px) {
-          .why-grid { grid-template-columns: 1fr !important; }
+        /* Mobile: single column stacked */
+        .why-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+        .why-image-col {
+          min-height: 280px;
+        }
+        .why-features-col {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        @media (min-width: 768px) {
+          section#features {
+            padding: 96px 40px;
+          }
+          .why-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: stretch;
+          }
+          .why-image-col {
+            min-height: 520px;
+          }
+          .why-features-col {
+            height: 100%;
+          }
+          .feature-row {
+            flex: 1;
+          }
         }
       `}</style>
     </section>

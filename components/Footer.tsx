@@ -50,27 +50,18 @@ export default function Footer({ className }: { className?: string }) {
 
   return (
     <footer
-      className={className}
+      className={`footer-root ${className ?? ""}`}
       style={{
         backgroundColor: "#0a0a0a",
         borderTop:       "1px solid var(--border-default)",
-        padding:         "80px 40px 40px",
+        padding:         "64px 20px 40px",
       }}
     >
       <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
         {/* Top row */}
-        <div
-          style={{
-            display:             "grid",
-            gridTemplateColumns: "1fr auto",
-            gap:                 "80px",
-            marginBottom:        "64px",
-            alignItems:          "start",
-          }}
-          className="footer-grid"
-        >
+        <div className="footer-grid" style={{ marginBottom: "48px" }}>
           {/* Left — brand + newsletter */}
-          <div style={{ maxWidth: "480px" }}>
+          <div className="footer-brand">
             <Link
               href="/"
               style={{
@@ -193,18 +184,18 @@ export default function Footer({ className }: { className?: string }) {
                   type="submit"
                   aria-label="Subscribe"
                   style={{
-                    width:          "40px",
-                    height:         "40px",
-                    borderRadius:   "50%",
-                    backgroundColor:"var(--neon)",
-                    border:         "none",
-                    display:        "flex",
-                    alignItems:     "center",
-                    justifyContent: "center",
-                    cursor:         "pointer",
-                    flexShrink:     0,
-                    color:          "var(--text-inverse)",
-                    transition:     "background 0.2s ease-out, transform 0.2s ease-out",
+                    width:           "40px",
+                    height:          "40px",
+                    borderRadius:    "50%",
+                    backgroundColor: "var(--neon)",
+                    border:          "none",
+                    display:         "flex",
+                    alignItems:      "center",
+                    justifyContent:  "center",
+                    cursor:          "pointer",
+                    flexShrink:      0,
+                    color:           "var(--text-inverse)",
+                    transition:      "background 0.2s ease-out, transform 0.2s ease-out",
                   }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.background  = "var(--neon-light)";
@@ -228,20 +219,20 @@ export default function Footer({ className }: { className?: string }) {
                   href={s.href}
                   aria-label={s.label}
                   style={{
-                    width:          "40px",
-                    height:         "40px",
-                    borderRadius:   "50%",
-                    backgroundColor:"var(--bg-tertiary)",
-                    border:         "1px solid var(--border-default)",
-                    display:        "flex",
-                    alignItems:     "center",
-                    justifyContent: "center",
-                    fontFamily:     "var(--font-mono)",
-                    fontSize:       "0.625rem",
-                    letterSpacing:  "0.05em",
-                    color:          "var(--text-secondary)",
-                    textDecoration: "none",
-                    transition:     "border-color 0.2s, color 0.2s, background 0.2s",
+                    width:           "40px",
+                    height:          "40px",
+                    borderRadius:    "50%",
+                    backgroundColor: "var(--bg-tertiary)",
+                    border:          "1px solid var(--border-default)",
+                    display:         "flex",
+                    alignItems:      "center",
+                    justifyContent:  "center",
+                    fontFamily:      "var(--font-mono)",
+                    fontSize:        "0.625rem",
+                    letterSpacing:   "0.05em",
+                    color:           "var(--text-secondary)",
+                    textDecoration:  "none",
+                    transition:      "border-color 0.2s, color 0.2s, background 0.2s",
                   }}
                   onMouseEnter={(e) => {
                     const el = e.currentTarget as HTMLElement;
@@ -263,15 +254,9 @@ export default function Footer({ className }: { className?: string }) {
           </div>
 
           {/* Right — nav columns */}
-          <div
-            style={{
-              display: "flex",
-              gap:     "64px",
-            }}
-            className="footer-nav"
-          >
+          <div className="footer-nav">
             {footerNav.map((section) => (
-              <div key={section.heading} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              <div key={section.heading} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <p
                   style={{
                     fontFamily:    "var(--font-body)",
@@ -314,15 +299,7 @@ export default function Footer({ className }: { className?: string }) {
         <div style={{ height: "1px", backgroundColor: "rgba(255,255,255,0.06)", marginBottom: "24px" }} />
 
         {/* Bottom bar */}
-        <div
-          style={{
-            display:        "flex",
-            justifyContent: "space-between",
-            alignItems:     "center",
-            flexWrap:       "wrap",
-            gap:            "12px",
-          }}
-        >
+        <div className="footer-bottom">
           <p
             style={{
               fontFamily: "var(--font-body)",
@@ -333,7 +310,7 @@ export default function Footer({ className }: { className?: string }) {
           >
             © 2026 Spacefit Innovations LLP. All rights reserved. · Built in Indore. Powered by AI. Designed for India.
           </p>
-          <div style={{ display: "flex", gap: "24px" }}>
+          <div style={{ display: "flex", gap: "24px", flexWrap: "wrap" }}>
             {["Privacy Policy", "Terms of Service"].map((item) => (
               <Link
                 key={item}
@@ -357,9 +334,49 @@ export default function Footer({ className }: { className?: string }) {
       </div>
 
       <style>{`
-        @media (max-width: 900px) {
-          .footer-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
-          .footer-nav  { flex-wrap: wrap; gap: 32px !important; }
+        /* Mobile: single column */
+        .footer-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 48px;
+        }
+        .footer-brand {
+          max-width: 100%;
+        }
+        .footer-nav {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 32px;
+        }
+        .footer-bottom {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        @media (min-width: 768px) {
+          .footer-root { padding: 80px 40px 40px; }
+          .footer-bottom {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+          }
+        }
+
+        @media (min-width: 900px) {
+          .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 80px;
+            align-items: start;
+          }
+          .footer-brand {
+            max-width: 480px;
+          }
+          .footer-nav {
+            display: flex;
+            gap: 64px;
+          }
         }
       `}</style>
     </footer>

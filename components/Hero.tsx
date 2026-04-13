@@ -31,10 +31,9 @@ export default function Hero({ className }: { className?: string }) {
     <section
       ref={sectionRef}
       id="main-content"
-      className={className}
+      className={`hero-section ${className ?? ""}`}
       style={{
         position:        "relative",
-        minHeight:       "100vh",
         backgroundColor: "var(--bg-primary)",
         overflow:        "hidden",
         display:         "flex",
@@ -52,9 +51,10 @@ export default function Hero({ className }: { className?: string }) {
         }}
       />
 
-      {/* Hero banner — right side */}
+      {/* Desktop image — right panel, hidden on mobile */}
       <div
         aria-hidden="true"
+        className="hero-image-panel"
         style={{
           position: "absolute",
           top:      0,
@@ -73,18 +73,18 @@ export default function Hero({ className }: { className?: string }) {
           style={{ objectFit: "cover", objectPosition: "center top" }}
           sizes="55vw"
         />
-        {/* Fade left edge into background */}
         <div
           style={{
             position:   "absolute",
             inset:      0,
-            background: "linear-gradient(to right, var(--bg-primary) 0%, rgba(10,10,10,0.6) 35%, transparent 100%)",
+            background: "linear-gradient(to right, var(--bg-primary) 0%, rgba(10,10,10,0.5) 40%, transparent 100%)",
           }}
         />
       </div>
 
       {/* Main content */}
       <div
+        className="hero-content"
         style={{
           position:   "relative",
           zIndex:     10,
@@ -94,10 +94,9 @@ export default function Hero({ className }: { className?: string }) {
           maxWidth:   "1280px",
           margin:     "0 auto",
           width:      "100%",
-          padding:    "80px 40px",
         }}
       >
-        <div style={{ maxWidth: "580px" }}>
+        <div className="hero-text-block">
           <p className="section-label animate-fadeIn" style={{ marginBottom: "20px" }}>
             India&apos;s First AI-Powered Phygital Wellness Ecosystem — Indore
           </p>
@@ -107,7 +106,7 @@ export default function Hero({ className }: { className?: string }) {
             style={{
               fontFamily:    "var(--font-display)",
               fontWeight:    900,
-              fontSize:      "clamp(3.5rem, 8vw, 6.5rem)",
+              fontSize:      "clamp(3rem, 10vw, 6.5rem)",
               lineHeight:    0.95,
               letterSpacing: "-0.03em",
               textTransform: "uppercase",
@@ -125,7 +124,7 @@ export default function Hero({ className }: { className?: string }) {
             style={{
               fontFamily:   "var(--font-body)",
               fontWeight:   400,
-              fontSize:     "1.125rem",
+              fontSize:     "clamp(0.9375rem, 2.5vw, 1.125rem)",
               lineHeight:   1.65,
               color:        "var(--text-secondary)",
               maxWidth:     "460px",
@@ -210,21 +209,21 @@ export default function Hero({ className }: { className?: string }) {
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator — desktop only */}
       <div
         aria-hidden="true"
+        className="scroll-bounce hero-scroll-indicator"
         style={{
           position:      "absolute",
-          bottom:        "32px",
+          bottom:        "100px",
           left:          "50%",
           transform:     "translateX(-50%)",
-          display:       "flex",
           flexDirection: "column",
           alignItems:    "center",
           gap:           "6px",
           color:         "var(--text-tertiary)",
+          zIndex:        10,
         }}
-        className="scroll-bounce"
       >
         <span
           style={{
@@ -243,6 +242,7 @@ export default function Hero({ className }: { className?: string }) {
 
       {/* Secondary nav bar */}
       <div
+        className="hero-subnav"
         style={{
           position:        "relative",
           zIndex:          10,
@@ -253,14 +253,15 @@ export default function Hero({ className }: { className?: string }) {
       >
         <div
           style={{
-            maxWidth:   "1280px",
-            margin:     "0 auto",
-            padding:    "0 40px",
-            height:     "48px",
-            display:    "flex",
-            alignItems: "center",
-            gap:        "32px",
-            overflowX:  "auto",
+            maxWidth:        "1280px",
+            margin:          "0 auto",
+            padding:         "0 20px",
+            height:          "48px",
+            display:         "flex",
+            alignItems:      "center",
+            justifyContent:  "space-between",
+            overflowX:       "auto",
+            scrollbarWidth:  "none",
           }}
         >
           {[
@@ -294,10 +295,44 @@ export default function Hero({ className }: { className?: string }) {
       </div>
 
       <style>{`
-        .scroll-bounce { animation: heroBounce 1.5s ease-in-out infinite; }
+        .hero-section {
+          min-height: auto;
+        }
+        .scroll-bounce {
+          animation: heroBounce 1.5s ease-in-out infinite;
+        }
         @keyframes heroBounce {
           0%, 100% { transform: translateX(-50%) translateY(0); }
           50%       { transform: translateX(-50%) translateY(6px); }
+        }
+
+        /* ── Mobile ── */
+        .hero-image-panel      { display: none; }
+        .hero-scroll-indicator { display: none; }
+
+        .hero-content {
+          padding: 72px 20px 40px !important;
+          align-items: flex-start !important;
+          flex: none !important;
+        }
+        .hero-text-block {
+          max-width: 580px;
+          width: 100%;
+        }
+
+        .hero-subnav div::-webkit-scrollbar { display: none; }
+
+        /* ── Desktop ── */
+        @media (min-width: 768px) {
+          .hero-section          { min-height: 100dvh; }
+          .hero-image-panel      { display: block; }
+          .hero-scroll-indicator { display: flex; }
+
+          .hero-content {
+            padding: 80px 40px !important;
+            align-items: center !important;
+            flex: 1 !important;
+          }
         }
       `}</style>
     </section>
