@@ -1,11 +1,14 @@
 "use client";
 
 const items = [
-  "Pilates Coaching",
-  "Strength Training",
-  "HIIT Classes",
+  "Your Fitness Space",
+  "AI Habit Intelligence",
+  "Steam Room Recovery",
+  "Zumba & Group Fitness",
   "Personal Training",
-  "Yoga & Mobility",
+  "Consistency Score",
+  "Where Health Meets Habit",
+  "Phygital Wellness",
 ];
 
 export default function Ticker({ className }: { className?: string }) {
@@ -25,27 +28,28 @@ export default function Ticker({ className }: { className?: string }) {
     >
       <div
         style={{
-          display: "flex",
-          gap: "72px",
+          display:    "flex",
+          gap:        "0px",
           alignItems: "center",
-          animation: "ticker 20s linear infinite",
+          animation:  "ticker 30s linear infinite",
           whiteSpace: "nowrap",
         }}
       >
         {[...items, ...items, ...items].map((item, i) => (
-          <span
-            key={i}
-            style={{
-              fontFamily: "var(--font-inter), sans-serif",
-              fontWeight: 400,
-              fontSize: "24px",
-              color: "var(--color-text)",
-              textTransform: "uppercase",
-              letterSpacing: "0.02em",
-              flexShrink: 0,
-            }}
-          >
-            {item}
+          <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: "72px", flexShrink: 0 }}>
+            <span
+              style={{
+                fontFamily:    "var(--font-display)",
+                fontWeight:    700,
+                fontSize:      "24px",
+                color:         "var(--text-secondary)",
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+              }}
+            >
+              {item}
+            </span>
+            <span style={{ color: "var(--neon)", fontSize: "10px", opacity: 0.6 }}>✦</span>
           </span>
         ))}
       </div>

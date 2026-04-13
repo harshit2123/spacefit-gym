@@ -5,24 +5,24 @@ import { useEffect, useRef } from "react";
 
 const features = [
   {
-    label: "State of the Art Equipment",
-    desc:  "Latest machines, free weights, and functional rigs.",
+    label: "AI Habit Intelligence",
+    desc:  "Your Consistency Score. Smarter nudges. You show up — even when motivation doesn't.",
     href:  "#classes",
   },
   {
-    label: "Expert Trainers",
-    desc:  "Certified coaches with elite performance backgrounds.",
+    label: "Steam Room + Electrolyte Recovery",
+    desc:  "Indore's only gym with in-house steam. Recover faster. Train harder.",
     href:  "#classes",
   },
   {
-    label: "Wide Range of Classes",
-    desc:  "Yoga, HIIT, Pilates, Strength — something for everyone.",
+    label: "Zumba, HIIT & Group Fitness",
+    desc:  "High-energy studio classes led by certified coaches. Every day. Every level.",
     href:  "#classes",
   },
   {
-    label: "Welcoming Community",
-    desc:  "A high-performance culture that lifts everyone up.",
-    href:  "#features",
+    label: "Phygital Platform",
+    desc:  "Gym floor meets AI app. Track, log, and level up — all in one place.",
+    href:  "#classes",
   },
 ];
 
@@ -142,7 +142,7 @@ export default function WhyChooseUs({ className }: { className?: string }) {
                 border:        "1px solid var(--border-default)",
               }}
             >
-              <p className="section-label" style={{ marginBottom: "4px" }}>Active Members</p>
+              <p className="section-label" style={{ marginBottom: "4px" }}>Only Phygital Gym</p>
               <p
                 style={{
                   fontFamily:    "var(--font-display)",
@@ -153,7 +153,10 @@ export default function WhyChooseUs({ className }: { className?: string }) {
                   lineHeight:    1,
                 }}
               >
-                27K+
+                In Indore
+              </p>
+              <p style={{ fontFamily: "var(--font-body)", fontSize: "0.75rem", color: "var(--text-tertiary)", marginTop: "6px" }}>
+                Physical + Digital, under one roof
               </p>
             </div>
           </div>

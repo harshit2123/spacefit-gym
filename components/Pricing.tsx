@@ -12,20 +12,38 @@ interface PlanProps {
 
 const plans: PlanProps[] = [
   {
-    name:     "Basic",
-    price:    "$25",
-    features: ["Gym floor access", "Cardio Hub", "2 group classes/month", "Locker room access"],
+    name:     "Student",
+    price:    "₹12,000",
+    features: [
+      "Open Gym Floor access",
+      "Group fitness classes",
+      "SpaceFit app — full digital platform",
+      "Consistency Score tracking",
+      "Locker room access",
+    ],
   },
   {
-    name:     "Standard",
-    price:    "$35",
-    features: ["Everything in Basic", "Unlimited group classes", "Yoga Studio access", "1 PT session/month"],
-  },
-  {
-    name:        "Elite",
-    price:       "$45",
-    features:    ["Everything in Standard", "Unlimited PT sessions", "Pilates priority", "Nutrition coaching", "24/7 access"],
+    name:        "Adult / Professional",
+    price:       "₹18,000",
     highlighted: true,
+    features: [
+      "Everything in Student",
+      "Steam Room + Electrolyte access",
+      "Priority class booking",
+      "Enhanced nutrition logging",
+      "1 PT session / month",
+    ],
+  },
+  {
+    name:     "Premium / Corporate",
+    price:    "₹24,000",
+    features: [
+      "Everything in Adult",
+      "2× Personal Training / week",
+      "Dedicated nutrition plan",
+      "Wearable device integration",
+      "Early access to new programmes",
+    ],
   },
 ];
 
@@ -114,7 +132,7 @@ function PricingCard({ name, price, features, highlighted }: PlanProps) {
               paddingBottom:"6px",
             }}
           >
-            /mo
+            /yr
           </span>
         </div>
       </div>
@@ -198,7 +216,7 @@ export default function Pricing({ className }: { className?: string }) {
               color:      "var(--text-secondary)",
             }}
           >
-            No contracts. No hidden fees. Cancel anytime.
+            Annual membership. No hidden fees. Breakeven at 351 members — join the founding cohort.
           </p>
         </div>
 
@@ -222,7 +240,7 @@ export default function Pricing({ className }: { className?: string }) {
           style={{ textAlign: "center", marginTop: "48px" }}
         >
           <p style={{ fontFamily: "var(--font-body)", fontSize: "0.875rem", color: "var(--text-tertiary)", marginBottom: "16px" }}>
-            Need a custom plan for your team or corporation?
+            Corporate wellness packages available. Blended ARPU ₹16,000/yr.
           </p>
           <Link href="/contact" className="btn-secondary">
             Contact Us

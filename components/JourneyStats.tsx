@@ -3,9 +3,9 @@
 import { useEffect, useRef } from "react";
 
 const stats = [
-  { value: "12+",  label: "Global Locations" },
-  { value: "27K+", label: "Active Members"   },
-  { value: "98%",  label: "Satisfaction Rate" },
+  { value: "351+",  label: "Target Members at Launch"  },
+  { value: "4+",    label: "Expert Coaches"            },
+  { value: "98%",   label: "Member Satisfaction"       },
 ];
 
 export default function JourneyStats({ className }: { className?: string }) {

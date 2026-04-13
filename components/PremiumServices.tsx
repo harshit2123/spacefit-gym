@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 const services = [
-  { name: "Strength Zone",    slots: "07 / 10", href: "#classes" },
-  { name: "Cardio Hub",       slots: "05 / 10", href: "#classes" },
-  { name: "Yoga Studio",      slots: "09 / 10", href: "#classes" },
-  { name: "Pilates Room",     slots: "03 / 10", href: "#classes" },
+  { name: "Open Gym Floor",         slots: "Cardio + Resistance + Free Weights", href: "/contact" },
+  { name: "Zumba & Group Fitness",  slots: "HIIT · Yoga · Dance Cardio",         href: "/contact" },
+  { name: "Steam Room Recovery",    slots: "Electrolyte Station Included",        href: "/contact" },
+  { name: "Personal Training",      slots: "Certified Coaches · 1-on-1",         href: "/contact" },
 ];
 
 export default function PremiumServices({ className }: { className?: string }) {
@@ -178,7 +178,7 @@ export default function PremiumServices({ className }: { className?: string }) {
                       letterSpacing: "0.05em",
                     }}
                   >
-                    {s.slots} slots
+                    {s.slots}
                   </span>
                   <span
                     style={{

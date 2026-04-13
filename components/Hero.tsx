@@ -99,7 +99,7 @@ export default function Hero({ className }: { className?: string }) {
       >
         <div style={{ maxWidth: "580px" }}>
           <p className="section-label animate-fadeIn" style={{ marginBottom: "20px" }}>
-            Elite Training Space
+            India&apos;s First AI-Powered Phygital Wellness Ecosystem — Indore
           </p>
 
           <h1
@@ -129,12 +129,27 @@ export default function Hero({ className }: { className?: string }) {
               lineHeight:   1.65,
               color:        "var(--text-secondary)",
               maxWidth:     "460px",
-              marginBottom: "40px",
+              marginBottom: "16px",
             }}
           >
-            Experience a fitness space designed around you. Cutting-edge
-            technology, elite coaching and a community built for
-            high-performance living.
+            SpaceFit — Your Fitness Space. Where Health Meets Habit.
+            AI-driven habit intelligence, elite coaching, and Indore&apos;s
+            only Steam Room recovery — built for high-performance living.
+          </p>
+
+          <p
+            className="animate-slideUp delay-300"
+            style={{
+              fontFamily:    "var(--font-mono)",
+              fontSize:      "0.75rem",
+              letterSpacing: "0.12em",
+              color:         "var(--neon)",
+              textTransform: "uppercase",
+              marginBottom:  "40px",
+              opacity:       0.8,
+            }}
+          >
+            Sukhlia, Near MR-10 · Indore, MP
           </p>
 
           {/* CTAs */}
@@ -188,7 +203,7 @@ export default function Hero({ className }: { className?: string }) {
                   textTransform: "uppercase",
                 }}
               >
-                View Services
+                Explore Services
               </span>
             </Link>
           </div>

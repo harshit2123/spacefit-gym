@@ -104,17 +104,42 @@ export default function Footer({ className }: { className?: string }) {
 
             <p
               style={{
+                fontFamily:    "var(--font-mono)",
+                fontSize:      "0.6875rem",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color:         "var(--neon)",
+                marginBottom:  "10px",
+                opacity:       0.8,
+              }}
+            >
+              Where Health Meets Habit
+            </p>
+            <p
+              style={{
                 fontFamily:   "var(--font-body)",
                 fontWeight:   400,
                 fontSize:     "0.9375rem",
                 lineHeight:   1.65,
                 color:        "var(--text-secondary)",
+                marginBottom: "16px",
+              }}
+            >
+              India&apos;s first AI-powered phygital wellness ecosystem.
+              Built for high-performance living — designed for India.
+            </p>
+            <p
+              style={{
+                fontFamily:   "var(--font-body)",
+                fontWeight:   400,
+                fontSize:     "0.8125rem",
+                lineHeight:   1.6,
+                color:        "var(--text-tertiary)",
                 marginBottom: "32px",
               }}
             >
-              Experience a fitness space designed around you. Cutting-edge
-              technology, elite coaching and a community built for
-              high-performance living.
+              Aditya Gateway Building, Sukhlia<br />
+              Near MR-10, Indore, Madhya Pradesh
             </p>
 
             {/* Newsletter */}
@@ -306,7 +331,7 @@ export default function Footer({ className }: { className?: string }) {
               color:      "var(--text-tertiary)",
             }}
           >
-            © 2025 SpaceFit. All rights reserved.
+            © 2026 Spacefit Innovations LLP. All rights reserved. · Built in Indore. Powered by AI. Designed for India.
           </p>
           <div style={{ display: "flex", gap: "24px" }}>
             {["Privacy Policy", "Terms of Service"].map((item) => (
