@@ -1,0 +1,42 @@
+{
+  "colors": {
+    "background": {
+      "primary": "#0a0a0a",
+      "secondary": "#1a1a1a",
+      "tertiary": "#2a2a2a"
+    },
+    "text": {
+      "primary": "#ffffff",
+      "secondary": "#a0a0a0",
+      "tertiary": "#666666",
+      "inverse": "#0a0a0a"
+    },
+    "accent": {
+      "neon": "#00FF2E",
+      "neon-light": "#00FF66",
+      "neon-dark": "#00cc23"
+    },
+    "semantic": {
+      "success": "#00FF2E",
+      "warning": "#FFD700",
+      "error": "#FF4444",
+      "info": "#00d4ff"
+    },
+    "border": {
+      "light": "#2a2a2a",
+      "medium": "#3a3a3a",
+      "dark": "#1a1a1a"
+    },
+    "shadow": {
+      "sm": "0 2px 4px rgba(0, 0, 0, 0.3)",
+      "md": "0 4px 12px rgba(0, 0, 0, 0.3)",
+      "lg": "0 8px 24px rgba(0, 0, 0, 0.4)",
+      "xl": "0 16px 48px rgba(0, 0, 0, 0.5)"
+    },
+    "glow": {
+      "neon-sm": "0 0 12px rgba(0, 255, 46, 0.2)",
+      "neon-md": "0 0 20px rgba(0, 255, 46, 0.3)",
+      "neon-lg": "0 0 40px rgba(0, 255, 46, 0.5)"
+    }
+  }
+}
