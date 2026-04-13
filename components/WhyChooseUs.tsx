@@ -101,7 +101,7 @@ export default function WhyChooseUs({ className }: { className?: string }) {
             display:             "grid",
             gridTemplateColumns: "1fr 1fr",
             gap:                 "40px",
-            alignItems:          "start",
+            alignItems:          "stretch",
           }}
           className="why-grid"
         >
@@ -110,7 +110,7 @@ export default function WhyChooseUs({ className }: { className?: string }) {
             className="reveal"
             style={{
               width:        "100%",
-              height:       "520px",
+              minHeight:    "520px",
               background:   "linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%)",
               borderRadius: "20px",
               border:       "1px solid var(--border-default)",
@@ -162,7 +162,7 @@ export default function WhyChooseUs({ className }: { className?: string }) {
           </div>
 
           {/* Right — feature list */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px", height: "100%" }}>
             {features.map((f, i) => (
               <Link
                 key={f.label}
@@ -180,6 +180,7 @@ export default function WhyChooseUs({ className }: { className?: string }) {
                   transition:      "border-color 0.3s ease-out, background 0.3s ease-out, transform 0.2s ease-out",
                   animationDelay:  `${i * 100}ms`,
                   cursor:          "pointer",
+                  flex:            1,
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement;
