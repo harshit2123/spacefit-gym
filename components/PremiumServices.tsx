@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 const services = [
-  { name: "Strength Zone",    slots: "07 / 10", href: "/services" },
-  { name: "Cardio Hub",       slots: "05 / 10", href: "/services" },
-  { name: "Yoga Studio",      slots: "09 / 10", href: "/services" },
-  { name: "Pilates Room",     slots: "03 / 10", href: "/services" },
+  { name: "Strength Zone",    slots: "07 / 10", href: "#classes" },
+  { name: "Cardio Hub",       slots: "05 / 10", href: "#classes" },
+  { name: "Yoga Studio",      slots: "09 / 10", href: "#classes" },
+  { name: "Pilates Room",     slots: "03 / 10", href: "#classes" },
 ];
 
 export default function PremiumServices({ className }: { className?: string }) {
@@ -62,7 +62,7 @@ export default function PremiumServices({ className }: { className?: string }) {
               <span style={{ color: "var(--neon)" }}>Services</span>
             </h2>
           </div>
-          <Link href="/services" className="btn-secondary" style={{ flexShrink: 0 }}>
+          <Link href="#classes" className="btn-secondary" style={{ flexShrink: 0 }}>
             View All
           </Link>
         </div>

@@ -151,7 +151,7 @@ export default function Hero({ className }: { className?: string }) {
             </Link>
 
             <Link
-              href="/services"
+              href="#classes"
               style={{
                 display:        "flex",
                 alignItems:     "center",
@@ -249,9 +249,9 @@ export default function Hero({ className }: { className?: string }) {
           }}
         >
           {[
-            { label: "Features", href: "/services" },
-            { label: "Classes",  href: "/services" },
-            { label: "Pricing",  href: "/membership" },
+            { label: "Features", href: "#features" },
+            { label: "Classes",  href: "#classes" },
+            { label: "Pricing",  href: "#pricing" },
             { label: "Contact",  href: "/contact" },
           ].map((item) => (
             <Link

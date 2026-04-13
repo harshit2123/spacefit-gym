@@ -8,19 +8,19 @@ const footerNav = [
   {
     heading: "Company",
     links: [
-      { label: "About Us",    href: "/about" },
-      { label: "Services",    href: "/services" },
-      { label: "Membership",  href: "/membership" },
+      { label: "About Us",    href: "/#features" },
+      { label: "Services",    href: "/#classes" },
+      { label: "Membership",  href: "/#pricing" },
       { label: "Contact",     href: "/contact" },
     ],
   },
   {
     heading: "Services",
     links: [
-      { label: "Strength Zone",     href: "/services" },
-      { label: "Cardio Hub",        href: "/services" },
-      { label: "Yoga Studio",       href: "/services" },
-      { label: "Personal Training", href: "/services" },
+      { label: "Strength Zone",     href: "/#classes" },
+      { label: "Cardio Hub",        href: "/#classes" },
+      { label: "Yoga Studio",       href: "/#classes" },
+      { label: "Personal Training", href: "/#classes" },
     ],
   },
   {

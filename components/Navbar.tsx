@@ -6,11 +6,14 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 const navItems = [
-  { label: "Home",       href: "/" },
-  { label: "About",      href: "/about" },
-  { label: "Services",   href: "/services" },
-  { label: "Membership", href: "/membership" },
+  { label: "Home",       href: "/",          section: null },
+  { label: "About",      href: "/#features", section: "features" },
+  { label: "Services",   href: "/#classes",  section: "classes" },
+  { label: "Membership", href: "/#pricing",  section: "pricing" },
 ];
+
+// section IDs in order — used to determine which is "active" on scroll
+const SECTION_IDS = ["pricing", "classes", "features"];
 
 function useScrolled(threshold = 10) {
   const [scrolled, setScrolled] = useState(false);
@@ -22,9 +25,32 @@ function useScrolled(threshold = 10) {
   return scrolled;
 }
 
+function useActiveSection() {
+  const [active, setActive] = useState<string | null>(null);
+  useEffect(() => {
+    const handler = () => {
+      // find the first section (from bottom up) whose top is above mid-screen
+      const mid = window.innerHeight / 2;
+      for (const id of SECTION_IDS) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= mid) {
+          setActive(id);
+          return;
+        }
+      }
+      setActive(null); // near top — Home active
+    };
+    window.addEventListener("scroll", handler, { passive: true });
+    handler(); // run on mount
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
+  return active;
+}
+
 export default function Navbar({ className }: { className?: string }) {
   const pathname  = usePathname();
   const scrolled  = useScrolled();
+  const activeSection = useActiveSection();
   const [open, setOpen]   = useState(false);
   const hamburgerRef      = useRef<HTMLButtonElement>(null);
   const firstLinkRef      = useRef<HTMLAnchorElement>(null);
@@ -124,7 +150,7 @@ export default function Navbar({ className }: { className?: string }) {
             className="hidden-mobile"
           >
             {navItems.map((item) => {
-              const active = pathname === item.href;
+              const active = item.section ? activeSection === item.section : (pathname === "/" && activeSection === null);
               return (
                 <li key={item.label}>
                   <Link
@@ -319,7 +345,7 @@ export default function Navbar({ className }: { className?: string }) {
         {/* Drawer links */}
         <nav style={{ flex: 1, padding: "16px 24px 32px", display: "flex", flexDirection: "column", gap: "4px" }}>
           {navItems.map((item, i) => {
-            const active = pathname === item.href;
+            const active = item.section ? activeSection === item.section : (pathname === "/" && activeSection === null);
             return (
               <Link
                 key={item.label}

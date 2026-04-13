@@ -7,22 +7,22 @@ const features = [
   {
     label: "State of the Art Equipment",
     desc:  "Latest machines, free weights, and functional rigs.",
-    href:  "/services",
+    href:  "#classes",
   },
   {
     label: "Expert Trainers",
     desc:  "Certified coaches with elite performance backgrounds.",
-    href:  "/services",
+    href:  "#classes",
   },
   {
     label: "Wide Range of Classes",
     desc:  "Yoga, HIIT, Pilates, Strength — something for everyone.",
-    href:  "/services",
+    href:  "#classes",
   },
   {
     label: "Welcoming Community",
     desc:  "A high-performance culture that lifts everyone up.",
-    href:  "/about",
+    href:  "#features",
   },
 ];
 
@@ -87,7 +87,7 @@ export default function WhyChooseUs({ className }: { className?: string }) {
             </h2>
           </div>
           <Link
-            href="/about"
+            href="#features"
             className="btn-secondary"
             style={{ flexShrink: 0 }}
           >

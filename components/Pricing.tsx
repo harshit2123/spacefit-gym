@@ -141,7 +141,7 @@ function PricingCard({ name, price, features, highlighted }: PlanProps) {
       </ul>
 
       <Link
-        href="/membership"
+        href="/contact"
         className={highlighted ? "btn-primary" : "btn-secondary"}
         style={{ justifyContent: "center" }}
       >
