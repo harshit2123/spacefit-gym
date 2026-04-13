@@ -1,126 +1,121 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
+const stats = [
+  { value: "12+",  label: "Global Locations" },
+  { value: "27K+", label: "Active Members"   },
+  { value: "98%",  label: "Satisfaction Rate" },
+];
+
 export default function JourneyStats({ className }: { className?: string }) {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const items = el.querySelectorAll(".reveal");
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("in-view"); }),
+      { threshold: 0.1 }
+    );
+    items.forEach((i) => obs.observe(i));
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
+      id="stats"
       className={className}
-      style={{
-        backgroundColor: "var(--color-bg)",
-        padding: "80px 30px",
-      }}
+      style={{ backgroundColor: "var(--bg-primary)", padding: "96px 40px" }}
     >
-      {/* Section header */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "48px",
-        }}
-      >
-        <h2
+      <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+        {/* Header */}
+        <div
+          className="reveal"
           style={{
-            fontFamily: "var(--font-space-grotesk), sans-serif",
-            fontWeight: 700,
-            fontSize: "64px",
-            lineHeight: 1,
-            color: "var(--color-text)",
-            textTransform: "uppercase",
+            display:        "flex",
+            justifyContent: "space-between",
+            alignItems:     "flex-end",
+            marginBottom:   "56px",
+            flexWrap:       "wrap",
+            gap:            "16px",
           }}
         >
-          Journey &amp;{" "}
-          <span style={{ color: "var(--color-primary)" }}>Stats</span>
-        </h2>
+          <div>
+            <p className="section-label" style={{ marginBottom: "12px" }}>04 / Numbers</p>
+            <h2
+              style={{
+                fontFamily:    "var(--font-display)",
+                fontWeight:    900,
+                fontSize:      "clamp(2.5rem, 5vw, 4rem)",
+                lineHeight:    1,
+                letterSpacing: "-0.02em",
+                textTransform: "uppercase",
+                color:         "var(--text-primary)",
+              }}
+            >
+              Journey &amp;{" "}
+              <span style={{ color: "var(--neon)" }}>Stats</span>
+            </h2>
+          </div>
+        </div>
+
+        {/* Stats block */}
         <div
+          className="reveal"
           style={{
-            display: "flex",
-            gap: "5px",
-            alignItems: "center",
-            fontFamily: "var(--font-inter), sans-serif",
-            fontWeight: 400,
-            fontSize: "24px",
-            color: "var(--color-primary)",
-            textTransform: "uppercase",
+            width:        "100%",
+            borderRadius: "24px",
+            border:       "1px solid var(--border-default)",
+            background:   "linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%)",
+            overflow:     "hidden",
           }}
         >
-          <span>01</span>
-          <span>-</span>
-          <span>Service</span>
-        </div>
-      </div>
-
-      {/* Stats block */}
-      <div
-        style={{
-          width: "100%",
-          borderRadius: "35px",
-          background: "var(--color-border-light)",
-          padding: "60px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "40px",
-        }}
-      >
-        {/* Stat 1 */}
-        <div>
-          <p
-            style={{
-              fontFamily: "var(--font-space-grotesk), sans-serif",
-              fontWeight: 700,
-              fontSize: "140px",
-              lineHeight: 1,
-              color: "var(--color-text)",
-              textTransform: "uppercase",
-            }}
-          >
-            12+
-          </p>
-          <p
-            style={{
-              fontFamily: "var(--font-inter), sans-serif",
-              fontWeight: 400,
-              fontSize: "24px",
-              color: "var(--color-text-muted)",
-              textTransform: "uppercase",
-              marginTop: "8px",
-            }}
-          >
-            Global Locations
-          </p>
-        </div>
-
-        {/* Divider */}
-        <div
-          style={{
-            height: "1px",
-            backgroundColor: "rgba(134,134,139,0.3)",
-          }}
-        />
-
-        {/* Stat 2 */}
-        <div>
-          <p
-            style={{
-              fontFamily: "var(--font-space-grotesk), sans-serif",
-              fontWeight: 700,
-              fontSize: "140px",
-              lineHeight: 1,
-              color: "var(--color-text)",
-              textTransform: "uppercase",
-            }}
-          >
-            27k+
-          </p>
-          <p
-            style={{
-              fontFamily: "var(--font-inter), sans-serif",
-              fontWeight: 400,
-              fontSize: "24px",
-              color: "var(--color-text-muted)",
-              textTransform: "uppercase",
-              marginTop: "8px",
-            }}
-          >
-            Members
-          </p>
+          {stats.map((stat, i) => (
+            <div key={stat.label}>
+              {i > 0 && (
+                <div style={{ height: "1px", backgroundColor: "rgba(134,134,139,0.2)" }} />
+              )}
+              <div
+                style={{
+                  padding:        "48px 60px",
+                  display:        "flex",
+                  alignItems:     "center",
+                  justifyContent: "space-between",
+                  flexWrap:       "wrap",
+                  gap:            "16px",
+                }}
+              >
+                <p
+                  style={{
+                    fontFamily:    "var(--font-display)",
+                    fontWeight:    900,
+                    fontSize:      "clamp(4rem, 10vw, 8rem)",
+                    lineHeight:    1,
+                    letterSpacing: "-0.03em",
+                    color:         "var(--text-primary)",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {stat.value}
+                </p>
+                <p
+                  style={{
+                    fontFamily:    "var(--font-body)",
+                    fontWeight:    400,
+                    fontSize:      "1.125rem",
+                    color:         "var(--text-secondary)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                  }}
+                >
+                  {stat.label}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

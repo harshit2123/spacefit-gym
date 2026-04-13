@@ -1,61 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Space+Mono:wght@400;700&display=swap');
 @import "tailwindcss";
 
+/* ─── Design Tokens ─────────────────────────────────────────────────────── */
 :root {
-  /* Colors */
-  --color-bg: #141414;
-  --color-surface: #1c1c1c;
-  --color-surface-alt: #181817;
-  --color-primary: #7ed321;
-  --color-primary-dark: #192f01;
-  --color-primary-border: #65a91a;
-  --color-text: #ffffff;
-  --color-text-muted: #86868b;
-  --color-border: #2a2a2a;
-  --color-border-light: #444444;
-  --color-divider: #424242;
-  --color-ticker-bg: #1c1c1c;
+  /* Background layers */
+  --bg-primary:     #0a0a0a;
+  --bg-secondary:   #141414;
+  --bg-tertiary:    #1a1a1a;
+  --bg-interactive: #242424;
+  --bg-subtle:      #2a2a2a;
+  --bg-muted:       #3a3a3a;
 
-  /* Spacing */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --space-16: 64px;
+  /* Text */
+  --text-primary:   #ffffff;
+  --text-secondary: #b0b0b0;
+  --text-tertiary:  #707070;
+  --text-inverse:   #0a0a0a;
+
+  /* Neon accent */
+  --neon:           #00FF2E;
+  --neon-light:     #4DFF66;
+  --neon-dark:      #00CC23;
+  --neon-dim:       rgba(0, 255, 46, 0.12);
+
+  /* Borders */
+  --border-default: #2a2a2a;
+  --border-medium:  #3a3a3a;
+
+  /* Shadows */
+  --shadow-sm:      0 2px 6px rgba(0, 0, 0, 0.5);
+  --shadow-md:      0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg:      0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-neon-sm: 0 0 12px rgba(0, 255, 46, 0.25);
+  --shadow-neon-md: 0 0 20px rgba(0, 255, 46, 0.35);
+  --shadow-neon-lg: 0 0 40px rgba(0, 255, 46, 0.5);
+  --shadow-nav:     0 4px 24px rgba(0, 0, 0, 0.8);
 
   /* Typography */
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
+  --font-display: 'Barlow Condensed', 'Oswald', sans-serif;
+  --font-body:    'DM Sans', 'Inter', sans-serif;
+  --font-mono:    'Space Mono', 'JetBrains Mono', monospace;
 
-  /* Border radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-2xl: 29px;
-  --radius-full: 9999px;
+  /* Legacy compat — keep existing component vars working */
+  --color-bg:            var(--bg-primary);
+  --color-surface:       var(--bg-tertiary);
+  --color-surface-alt:   #181817;
+  --color-primary:       var(--neon);
+  --color-primary-dark:  #192f01;
+  --color-primary-border:#65a91a;
+  --color-text:          var(--text-primary);
+  --color-text-muted:    #86868b;
+  --color-border:        var(--border-default);
+  --color-border-light:  #444444;
+  --color-divider:       #424242;
+  --color-ticker-bg:     #1c1c1c;
 }
 
-* {
-  box-sizing: border-box;
-}
+/* ─── Reset ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
   overflow-x: hidden;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Keyframes ─────────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 12px rgba(0, 255, 46, 0.15); }
+  50%       { box-shadow: 0 0 32px rgba(0, 255, 46, 0.5);  }
+}
+
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -800px 0; }
+  100% { background-position:  800px 0; }
+}
+
+/* ─── Animation Utilities ───────────────────────────────────────────────── */
+.animate-fadeIn    { animation: fadeIn   0.4s ease-out both; }
+.animate-slideUp   { animation: slideUp  0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.animate-slideDown { animation: slideDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.animate-scaleIn   { animation: scaleIn  0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.animate-glow      { animation: glow 2.5s ease-in-out infinite; }
+.animate-ticker    { animation: ticker 20s linear infinite; }
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+
+/* ─── Button Components ─────────────────────────────────────────────────── */
+.btn-primary {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  gap:             8px;
+  padding:         12px 28px;
+  background:      var(--neon);
+  color:           var(--text-inverse);
+  font-family:     var(--font-body);
+  font-size:       0.875rem;
+  font-weight:     600;
+  letter-spacing:  0.04em;
+  text-transform:  uppercase;
+  border-radius:   6px;
+  border:          2px solid transparent;
+  cursor:          pointer;
+  text-decoration: none;
+  transition:      all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  white-space:     nowrap;
+}
+.btn-primary:hover {
+  background:  var(--neon-light);
+  box-shadow:  var(--shadow-neon-md), var(--shadow-md);
+  transform:   scale(1.02);
+}
+.btn-primary:active       { background: var(--neon-dark); transform: scale(0.98); }
+.btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 4px rgba(0,255,46,0.25); }
+
+.btn-secondary {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  gap:             8px;
+  padding:         10px 26px;
+  background:      transparent;
+  color:           var(--text-primary);
+  font-family:     var(--font-body);
+  font-size:       0.875rem;
+  font-weight:     600;
+  letter-spacing:  0.04em;
+  text-transform:  uppercase;
+  border-radius:   6px;
+  border:          2px solid var(--border-default);
+  cursor:          pointer;
+  text-decoration: none;
+  transition:      all 0.2s ease-out;
+  white-space:     nowrap;
+}
+.btn-secondary:hover {
+  border-color: var(--neon);
+  color:        var(--neon);
+  background:   rgba(0,255,46,0.05);
+}
+.btn-secondary:focus-visible { outline: none; box-shadow: 0 0 0 4px rgba(0,255,46,0.25); }
+
+/* ─── Utility Classes ───────────────────────────────────────────────────── */
+.section-label {
+  font-family:     var(--font-body);
+  font-size:       0.75rem;
+  font-weight:     600;
+  letter-spacing:  0.1em;
+  text-transform:  uppercase;
+  color:           var(--neon);
+}
+
+.card-base {
+  background:    var(--bg-tertiary);
+  border:        1px solid var(--border-default);
+  border-radius: 8px;
+  padding:       24px;
+  box-shadow:    var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.03);
+  transition:    border-color 0.3s ease-out, box-shadow 0.3s ease-out, transform 0.3s ease-out;
+}
+.card-base:hover {
+  border-color: var(--border-medium);
+  box-shadow:   var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.05);
+  transform:    translateY(-2px);
+}
+
+/* ─── Scroll Reveal ─────────────────────────────────────────────────────── */
+.reveal {
+  opacity:    0;
+  transform:  translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.reveal.in-view {
+  opacity:   1;
+  transform: translateY(0);
+}
+
+/* ─── Reduced Motion ────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1      !important;
+    transition-duration:       0.01ms !important;
+  }
 }

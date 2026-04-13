@@ -10,7 +10,7 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main style={{ backgroundColor: "var(--color-bg)" }}>
+    <main style={{ backgroundColor: "var(--bg-primary)" }}>
       <Navbar />
       <Hero />
       <Ticker />
