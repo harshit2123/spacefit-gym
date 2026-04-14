@@ -1,39 +1,32 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const stats = [
-  { value: "351+",  label: "Target Members at Launch"  },
-  { value: "4+",    label: "Expert Coaches"            },
-  { value: "98%",   label: "Member Satisfaction"       },
+  { value: "351+", label: "Target Members at Launch", accent: "neon" },
+  { value: "4+",   label: "Expert Coaches",            accent: "gold" },
+  { value: "98%",  label: "Member Satisfaction",       accent: "neon" },
 ];
 
 export default function JourneyStats({ className }: { className?: string }) {
-  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const headerInView = useInView(headerRef, { once: true, margin: "-80px" });
 
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const items = el.querySelectorAll(".reveal");
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("in-view"); }),
-      { threshold: 0.1 }
-    );
-    items.forEach((i) => obs.observe(i));
-    return () => obs.disconnect();
-  }, []);
+  const blockRef = useRef<HTMLDivElement>(null);
+  const blockInView = useInView(blockRef, { once: true, margin: "-60px" });
 
   return (
     <section
-      ref={sectionRef}
       id="stats"
       className={`stats-section ${className ?? ""}`}
-      style={{ backgroundColor: "var(--bg-primary)", padding: "80px 20px" }}
+      style={{ backgroundColor: "var(--bg-primary)", padding: "80px 20px", position: "relative", overflow: "hidden" }}
     >
-      <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+
+      <div style={{ maxWidth: "1280px", margin: "0 auto", position: "relative", zIndex: 1 }}>
         {/* Header */}
         <div
-          className="reveal"
+          ref={headerRef}
           style={{
             display:        "flex",
             justifyContent: "space-between",
@@ -43,15 +36,19 @@ export default function JourneyStats({ className }: { className?: string }) {
             gap:            "16px",
           }}
         >
-          <div>
-            <p className="section-label" style={{ marginBottom: "12px" }}>04 / Numbers</p>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <p className="section-label" style={{ marginBottom: "14px" }}>04 / Numbers</p>
             <h2
               style={{
                 fontFamily:    "var(--font-display)",
                 fontWeight:    900,
-                fontSize:      "clamp(2.2rem, 7vw, 4rem)",
-                lineHeight:    1,
-                letterSpacing: "-0.02em",
+                fontSize:      "clamp(2.4rem, 7vw, 4.5rem)",
+                lineHeight:    0.95,
+                letterSpacing: "-0.03em",
                 textTransform: "uppercase",
                 color:         "var(--text-primary)",
               }}
@@ -59,36 +56,58 @@ export default function JourneyStats({ className }: { className?: string }) {
               Journey &amp;{" "}
               <span style={{ color: "var(--neon)" }}>Stats</span>
             </h2>
-          </div>
+          </motion.div>
         </div>
 
         {/* Stats block */}
-        <div
-          className="reveal"
+        <motion.div
+          ref={blockRef}
+          initial={{ opacity: 0, y: 32 }}
+          animate={blockInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={{
             width:        "100%",
-            borderRadius: "20px",
-            border:       "1px solid var(--border-default)",
-            background:   "linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%)",
+            borderRadius: "16px",
+            border:       "1px solid rgba(0,255,46,0.1)",
+            background:   "linear-gradient(135deg, #131309 0%, #0d0d0a 50%, #141410 100%)",
             overflow:     "hidden",
+            boxShadow:    "var(--shadow-xl), inset 0 1px 0 rgba(0,255,46,0.05)",
           }}
         >
+          {/* Top gold line */}
+          <div style={{ height: "1px", background: "linear-gradient(to right, transparent 0%, var(--neon) 50%, transparent 100%)", opacity: 0.2 }} />
+
           {stats.map((stat, i) => (
             <div key={stat.label}>
               {i > 0 && (
-                <div style={{ height: "1px", backgroundColor: "rgba(134,134,139,0.2)" }} />
+                <div style={{ height: "1px", background: "rgba(0,255,46,0.06)", marginLeft: "24px", marginRight: "24px" }} />
               )}
-              <div className="stat-row">
+              <motion.div
+                className="stat-row"
+                initial={{ opacity: 0, x: -20 }}
+                animate={blockInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.65, delay: 0.15 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              >
                 <p className="stat-value">
-                  {stat.value}
+                  {/* Number part */}
+                  <span>{stat.value.replace(/[+%]$/, "")}</span>
+                  {/* Symbol accent */}
+                  <span style={{
+                    color: "var(--neon)",
+                  }}>
+                    {stat.value.match(/[+%]$/)?.[0] ?? ""}
+                  </span>
                 </p>
                 <p className="stat-label">
                   {stat.label}
                 </p>
-              </div>
+              </motion.div>
             </div>
           ))}
-        </div>
+
+          {/* Bottom border */}
+          <div style={{ height: "1px", background: "rgba(0,255,46,0.04)" }} />
+        </motion.div>
       </div>
 
       <style>{`
@@ -103,20 +122,22 @@ export default function JourneyStats({ className }: { className?: string }) {
         .stat-value {
           font-family:    var(--font-display);
           font-weight:    900;
-          font-size:      clamp(3rem, 12vw, 8rem);
+          font-size:      clamp(3.5rem, 12vw, 9rem);
           line-height:    1;
-          letter-spacing: -0.03em;
+          letter-spacing: -0.04em;
           color:          var(--text-primary);
           text-transform: uppercase;
         }
         .stat-label {
-          font-family:    var(--font-body);
+          font-family:    var(--font-mono);
           font-weight:    400;
-          font-size:      clamp(0.75rem, 2.5vw, 1.125rem);
-          color:          var(--text-secondary);
+          font-size:      clamp(0.625rem, 2vw, 0.875rem);
+          color:          var(--text-tertiary);
           text-transform: uppercase;
-          letter-spacing: 0.06em;
+          letter-spacing: 0.1em;
           text-align:     right;
+          max-width:      180px;
+          line-height:    1.5;
         }
         @media (min-width: 768px) {
           .stats-section { padding: 96px 32px; }
@@ -124,7 +145,7 @@ export default function JourneyStats({ className }: { className?: string }) {
         }
         @media (min-width: 1024px) {
           .stats-section { padding: 96px 40px; }
-          .stat-row { padding: 48px 60px; }
+          .stat-row { padding: 48px 64px; }
         }
       `}</style>
     </section>

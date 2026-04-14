@@ -78,12 +78,12 @@ export default function Navbar({ className }: { className?: string }) {
           right:          0,
           zIndex:         30,
           height:         "64px",
-          backgroundColor:"rgba(10, 10, 10, 0.92)",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
-          borderBottom:   "1px solid rgba(255, 255, 255, 0.06)",
-          transition:     "box-shadow 0.3s ease-out",
-          boxShadow:      scrolled ? "0 4px 24px rgba(0, 0, 0, 0.8)" : "none",
+          backgroundColor:"rgba(8, 8, 6, 0.94)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderBottom:   scrolled ? "1px solid rgba(0,255,46,0.12)" : "1px solid rgba(0,255,46,0.06)",
+          transition:     "box-shadow 0.3s ease-out, border-color 0.3s",
+          boxShadow:      scrolled ? "0 4px 32px rgba(0,0,0,0.9), 0 1px 0 rgba(0,255,46,0.06)" : "none",
         }}
       >
         <nav
@@ -127,7 +127,7 @@ export default function Navbar({ className }: { className?: string }) {
                 color:         "var(--text-primary)",
               }}
             >
-              SPACE<span style={{ color: "var(--neon)" }}>FIT</span>
+              SPACE<span style={{ color: "var(--neon)", textShadow: "0 0 12px rgba(0,255,46,0.35)" }}>FIT</span>
             </span>
           </Link>
 
@@ -185,7 +185,7 @@ export default function Navbar({ className }: { className?: string }) {
                           height:       "4px",
                           borderRadius: "50%",
                           background:   "var(--neon)",
-                          boxShadow:    "0 0 8px rgba(0,255,46,0.6)",
+                          boxShadow:    "0 0 8px rgba(0,255,46,0.5)",
                         }}
                       />
                     )}

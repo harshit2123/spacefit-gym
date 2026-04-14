@@ -26,9 +26,9 @@ const footerNav = [
   {
     heading: "Legal",
     links: [
-      { label: "Privacy Policy",    href: "/contact" },
-      { label: "Terms of Service",  href: "/contact" },
-      { label: "Cookie Policy",     href: "/contact" },
+      { label: "Privacy Policy",   href: "/contact" },
+      { label: "Terms of Service", href: "/contact" },
+      { label: "Cookie Policy",    href: "/contact" },
     ],
   },
 ];
@@ -52,12 +52,15 @@ export default function Footer({ className }: { className?: string }) {
     <footer
       className={`footer-root ${className ?? ""}`}
       style={{
-        backgroundColor: "#0a0a0a",
-        borderTop:       "1px solid var(--border-default)",
+        backgroundColor: "#080806",
+        borderTop:       "1px solid rgba(0,255,46,0.1)",
         padding:         "64px 20px 40px",
+        position:        "relative",
+        overflow:        "hidden",
       }}
     >
-      <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+
+      <div style={{ maxWidth: "1280px", margin: "0 auto", position: "relative", zIndex: 1 }}>
         {/* Top row */}
         <div className="footer-grid" style={{ marginBottom: "48px" }}>
           {/* Left — brand + newsletter */}
@@ -89,19 +92,19 @@ export default function Footer({ className }: { className?: string }) {
                   color:         "var(--text-primary)",
                 }}
               >
-                SPACE<span style={{ color: "var(--neon)" }}>FIT</span>
+                SPACE<span style={{ color: "var(--neon)", textShadow: "0 0 16px rgba(0,255,46,0.4)" }}>FIT</span>
               </span>
             </Link>
 
             <p
               style={{
                 fontFamily:    "var(--font-mono)",
-                fontSize:      "0.6875rem",
-                letterSpacing: "0.12em",
+                fontSize:      "0.5625rem",
+                letterSpacing: "0.14em",
                 textTransform: "uppercase",
                 color:         "var(--neon)",
                 marginBottom:  "10px",
-                opacity:       0.8,
+                opacity:       0.7,
               }}
             >
               Where Health Meets Habit
@@ -109,7 +112,7 @@ export default function Footer({ className }: { className?: string }) {
             <p
               style={{
                 fontFamily:   "var(--font-body)",
-                fontWeight:   400,
+                fontWeight:   300,
                 fontSize:     "0.9375rem",
                 lineHeight:   1.65,
                 color:        "var(--text-secondary)",
@@ -122,7 +125,7 @@ export default function Footer({ className }: { className?: string }) {
             <p
               style={{
                 fontFamily:   "var(--font-body)",
-                fontWeight:   400,
+                fontWeight:   300,
                 fontSize:     "0.8125rem",
                 lineHeight:   1.6,
                 color:        "var(--text-tertiary)",
@@ -134,7 +137,17 @@ export default function Footer({ className }: { className?: string }) {
             </p>
 
             {/* Newsletter */}
-            <p className="section-label" style={{ marginBottom: "12px", color: "var(--text-secondary)" }}>
+            <p
+              style={{
+                fontFamily:    "var(--font-mono)",
+                fontSize:      "0.5625rem",
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color:         "var(--neon)",
+                opacity:       0.65,
+                marginBottom:  "12px",
+              }}
+            >
               Newsletter
             </p>
             {sent ? (
@@ -155,12 +168,13 @@ export default function Footer({ className }: { className?: string }) {
                   display:         "flex",
                   alignItems:      "center",
                   justifyContent:  "space-between",
-                  height:          "52px",
-                  borderRadius:    "9999px",
-                  border:          "1px solid var(--border-default)",
-                  backgroundColor: "var(--bg-tertiary)",
-                  padding:         "6px 6px 6px 20px",
+                  height:          "50px",
+                  borderRadius:    "4px",
+                  border:          "1px solid rgba(0,255,46,0.15)",
+                  backgroundColor: "rgba(0,255,46,0.03)",
+                  padding:         "6px 6px 6px 18px",
                   maxWidth:        "400px",
+                  boxShadow:       "inset 0 1px 0 rgba(255,255,255,0.03)",
                 }}
               >
                 <input
@@ -175,6 +189,7 @@ export default function Footer({ className }: { className?: string }) {
                     border:     "none",
                     outline:    "none",
                     fontFamily: "var(--font-body)",
+                    fontWeight: 300,
                     fontSize:   "0.875rem",
                     color:      "var(--text-primary)",
                     minWidth:   0,
@@ -184,26 +199,27 @@ export default function Footer({ className }: { className?: string }) {
                   type="submit"
                   aria-label="Subscribe"
                   style={{
-                    width:           "40px",
-                    height:          "40px",
-                    borderRadius:    "50%",
-                    backgroundColor: "var(--neon)",
+                    width:           "38px",
+                    height:          "38px",
+                    borderRadius:    "3px",
+                    background:      "linear-gradient(135deg, var(--neon) 0%, var(--neon-dark) 100%)",
                     border:          "none",
                     display:         "flex",
                     alignItems:      "center",
                     justifyContent:  "center",
                     cursor:          "pointer",
                     flexShrink:      0,
-                    color:           "var(--text-inverse)",
-                    transition:      "background 0.2s ease-out, transform 0.2s ease-out",
+                    color:           "#050505",
+                    fontWeight:      700,
+                    transition:      "transform 0.2s, box-shadow 0.2s",
                   }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.background  = "var(--neon-light)";
-                    (e.currentTarget as HTMLElement).style.transform   = "scale(1.08)";
+                    (e.currentTarget as HTMLElement).style.transform  = "scale(1.06)";
+                    (e.currentTarget as HTMLElement).style.boxShadow  = "var(--shadow-neon-sm)";
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.background  = "var(--neon)";
-                    (e.currentTarget as HTMLElement).style.transform   = "scale(1)";
+                    (e.currentTarget as HTMLElement).style.transform  = "scale(1)";
+                    (e.currentTarget as HTMLElement).style.boxShadow  = "none";
                   }}
                 >
                   →
@@ -212,25 +228,25 @@ export default function Footer({ className }: { className?: string }) {
             )}
 
             {/* Social links */}
-            <div style={{ display: "flex", gap: "12px", marginTop: "28px" }}>
+            <div style={{ display: "flex", gap: "10px", marginTop: "28px" }}>
               {socialLinks.map((s) => (
                 <a
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
                   style={{
-                    width:           "40px",
-                    height:          "40px",
-                    borderRadius:    "50%",
-                    backgroundColor: "var(--bg-tertiary)",
-                    border:          "1px solid var(--border-default)",
+                    width:           "38px",
+                    height:          "38px",
+                    borderRadius:    "4px",
+                    backgroundColor: "rgba(0,255,46,0.03)",
+                    border:          "1px solid rgba(0,255,46,0.12)",
                     display:         "flex",
                     alignItems:      "center",
                     justifyContent:  "center",
                     fontFamily:      "var(--font-mono)",
-                    fontSize:        "0.625rem",
-                    letterSpacing:   "0.05em",
-                    color:           "var(--text-secondary)",
+                    fontSize:        "0.5625rem",
+                    letterSpacing:   "0.08em",
+                    color:           "var(--text-tertiary)",
                     textDecoration:  "none",
                     transition:      "border-color 0.2s, color 0.2s, background 0.2s",
                   }}
@@ -238,13 +254,13 @@ export default function Footer({ className }: { className?: string }) {
                     const el = e.currentTarget as HTMLElement;
                     el.style.borderColor     = "var(--neon)";
                     el.style.color           = "var(--neon)";
-                    el.style.backgroundColor = "rgba(0,255,46,0.08)";
+                    el.style.backgroundColor = "rgba(0,255,46,0.06)";
                   }}
                   onMouseLeave={(e) => {
                     const el = e.currentTarget as HTMLElement;
-                    el.style.borderColor     = "var(--border-default)";
-                    el.style.color           = "var(--text-secondary)";
-                    el.style.backgroundColor = "var(--bg-tertiary)";
+                    el.style.borderColor     = "rgba(0,255,46,0.12)";
+                    el.style.color           = "var(--text-tertiary)";
+                    el.style.backgroundColor = "rgba(0,255,46,0.03)";
                   }}
                 >
                   {s.icon}
@@ -259,31 +275,33 @@ export default function Footer({ className }: { className?: string }) {
               <div key={section.heading} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <p
                   style={{
-                    fontFamily:    "var(--font-body)",
-                    fontWeight:    700,
-                    fontSize:      "0.8125rem",
-                    letterSpacing: "0.08em",
+                    fontFamily:    "var(--font-mono)",
+                    fontWeight:    400,
+                    fontSize:      "0.5625rem",
+                    letterSpacing: "0.14em",
                     textTransform: "uppercase",
-                    color:         "var(--text-primary)",
+                    color:         "var(--neon)",
+                    opacity:       0.65,
                   }}
                 >
                   {section.heading}
                 </p>
-                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                   {section.links.map((link) => (
                     <Link
                       key={link.label}
                       href={link.href}
                       style={{
                         fontFamily:     "var(--font-body)",
-                        fontWeight:     400,
+                        fontWeight:     300,
                         fontSize:       "0.9375rem",
                         lineHeight:     1.4,
                         color:          "var(--text-secondary)",
                         textDecoration: "none",
                         transition:     "color 0.2s ease-out",
+                        letterSpacing:  "-0.01em",
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = "var(--neon)")}
                       onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
                     >
                       {link.label}
@@ -295,20 +313,22 @@ export default function Footer({ className }: { className?: string }) {
           </div>
         </div>
 
-        {/* Divider */}
-        <div style={{ height: "1px", backgroundColor: "rgba(255,255,255,0.06)", marginBottom: "24px" }} />
+        {/* Bottom divider */}
+        <div style={{ height: "1px", background: "linear-gradient(to right, transparent, rgba(0,255,46,0.1) 50%, transparent)", marginBottom: "24px" }} />
 
         {/* Bottom bar */}
         <div className="footer-bottom">
           <p
             style={{
-              fontFamily: "var(--font-body)",
-              fontWeight: 400,
-              fontSize:   "0.8125rem",
-              color:      "var(--text-tertiary)",
+              fontFamily:    "var(--font-mono)",
+              fontWeight:    400,
+              fontSize:      "0.5625rem",
+              letterSpacing: "0.1em",
+              color:         "var(--text-tertiary)",
+              textTransform: "uppercase",
             }}
           >
-            © 2026 Spacefit Innovations LLP. All rights reserved. · Built in Indore. Powered by AI. Designed for India.
+            © 2026 Spacefit Innovations LLP — Built in Indore · Powered by AI · Designed for India
           </p>
           <div style={{ display: "flex", gap: "24px", flexWrap: "wrap" }}>
             {["Privacy Policy", "Terms of Service"].map((item) => (
@@ -316,14 +336,16 @@ export default function Footer({ className }: { className?: string }) {
                 key={item}
                 href="/contact"
                 style={{
-                  fontFamily:     "var(--font-body)",
+                  fontFamily:     "var(--font-mono)",
                   fontWeight:     400,
-                  fontSize:       "0.8125rem",
+                  fontSize:       "0.5625rem",
+                  letterSpacing:  "0.1em",
                   color:          "var(--text-tertiary)",
                   textDecoration: "none",
+                  textTransform:  "uppercase",
                   transition:     "color 0.2s",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--neon)")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-tertiary)")}
               >
                 {item}
@@ -334,15 +356,12 @@ export default function Footer({ className }: { className?: string }) {
       </div>
 
       <style>{`
-        /* Mobile: single column */
         .footer-grid {
           display: flex;
           flex-direction: column;
           gap: 48px;
         }
-        .footer-brand {
-          max-width: 100%;
-        }
+        .footer-brand { max-width: 100%; }
         .footer-nav {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -367,24 +386,14 @@ export default function Footer({ className }: { className?: string }) {
             gap: 48px;
             align-items: start;
           }
-          .footer-nav {
-            display: flex;
-            gap: 40px;
-          }
+          .footer-nav { display: flex; gap: 40px; }
         }
 
         @media (min-width: 1024px) {
           .footer-root { padding: 80px 40px 40px; }
-          .footer-grid {
-            grid-template-columns: 1fr auto;
-            gap: 80px;
-          }
-          .footer-brand {
-            max-width: 480px;
-          }
-          .footer-nav {
-            gap: 64px;
-          }
+          .footer-grid { grid-template-columns: 1fr auto; gap: 80px; }
+          .footer-brand { max-width: 480px; }
+          .footer-nav { gap: 64px; }
         }
       `}</style>
     </footer>

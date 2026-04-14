@@ -17,12 +17,12 @@ export default function Ticker({ className }: { className?: string }) {
       className={`ticker-root ${className ?? ""}`}
       style={{
         width:           "100%",
-        backgroundColor: "var(--color-ticker-bg)",
+        backgroundColor: "#0c0c09",
+        borderTop:       "1px solid rgba(0,255,46,0.08)",
+        borderBottom:    "1px solid rgba(0,255,46,0.08)",
         overflow:        "hidden",
         display:         "flex",
         alignItems:      "center",
-        borderTop:       "1px solid rgba(255,255,255,0.05)",
-        borderBottom:    "1px solid rgba(255,255,255,0.05)",
       }}
     >
       <div
@@ -43,12 +43,12 @@ export default function Ticker({ className }: { className?: string }) {
                 fontWeight:    700,
                 textTransform: "uppercase",
                 letterSpacing: "0.08em",
-                color:         "var(--text-secondary)",
+                color:         "var(--text-tertiary)",
               }}
             >
               {item}
             </span>
-            <span style={{ color: "var(--neon)", fontSize: "8px", opacity: 0.6 }}>✦</span>
+            <span style={{ color: "var(--neon)", fontSize: "5px", opacity: 0.3 }}>◆</span>
           </span>
         ))}
       </div>

@@ -2,7 +2,21 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
+import { motion, type Variants } from "framer-motion";
+
+const HeroCanvas3D = dynamic(() => import("./HeroCanvas3D"), { ssr: false });
+
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 36 },
+  show:   (d: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, delay: d, ease: EASE },
+  }),
+};
 
 function PlayIcon() {
   return (
@@ -13,45 +27,34 @@ function PlayIcon() {
 }
 
 export default function Hero({ className }: { className?: string }) {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const items = el.querySelectorAll(".reveal");
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("in-view"); }),
-      { threshold: 0.1 }
-    );
-    items.forEach((i) => obs.observe(i));
-    return () => obs.disconnect();
-  }, []);
-
   return (
     <section
-      ref={sectionRef}
       id="main-content"
       className={`hero-section ${className ?? ""}`}
       style={{
         position:        "relative",
         backgroundColor: "var(--bg-primary)",
-        overflow:        "hidden",
+        overflow:        "visible",
         display:         "flex",
         flexDirection:   "column",
       }}
     >
-      {/* Atmospheric neon glow */}
+      {/* 3D WebGL Canvas — fixed, full-page scroll-driven */}
+      <HeroCanvas3D />
+
+      {/* Luxury atmospheric layer: deep warm bottom-left glow */}
       <div
         aria-hidden="true"
         style={{
           position:      "absolute",
           inset:         0,
-          background:    "radial-gradient(ellipse 60% 50% at -10% 120%, rgba(0,255,46,0.10) 0%, transparent 70%)",
+          background:    "radial-gradient(ellipse 60% 60% at -8% 110%, rgba(0,255,46,0.10) 0%, transparent 55%), radial-gradient(ellipse 50% 40% at 105% -10%, rgba(0,255,46,0.05) 0%, transparent 50%)",
           pointerEvents: "none",
+          zIndex:        1,
         }}
       />
 
-      {/* Desktop image — right panel, hidden on mobile */}
+      {/* Right image panel — desktop/iPad */}
       <div
         aria-hidden="true"
         className="hero-image-panel"
@@ -62,6 +65,7 @@ export default function Hero({ className }: { className?: string }) {
           right:    0,
           width:    "55%",
           overflow: "hidden",
+          zIndex:   1,
         }}
       >
         <Image
@@ -73,16 +77,13 @@ export default function Hero({ className }: { className?: string }) {
           style={{ objectFit: "cover", objectPosition: "center top" }}
           sizes="55vw"
         />
-        <div
-          style={{
-            position:   "absolute",
-            inset:      0,
-            background: "linear-gradient(to right, var(--bg-primary) 0%, rgba(10,10,10,0.5) 40%, transparent 100%)",
-          }}
-        />
+        {/* Multi-layer fade for seamless bleed */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, var(--bg-primary) 0%, rgba(10,10,10,0.6) 35%, transparent 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, var(--bg-primary) 0%, transparent 22%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, var(--bg-primary) 0%, transparent 12%)" }} />
       </div>
 
-      {/* Main content */}
+      {/* Main text content */}
       <div
         className="hero-content"
         style={{
@@ -97,69 +98,101 @@ export default function Hero({ className }: { className?: string }) {
         }}
       >
         <div className="hero-text-block">
-          <p className="section-label animate-fadeIn" style={{ marginBottom: "20px" }}>
-            India&apos;s First AI-Powered Phygital Wellness Ecosystem — Indore
-          </p>
 
-          <h1
-            className="animate-slideUp"
+          {/* Gold overline label */}
+          <motion.div
+            initial="hidden"
+            animate="show"
+            custom={0.05}
+            variants={fadeUp}
+            style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "22px" }}
+          >
+            <span style={{ display: "block", width: "28px", height: "1px", background: "var(--neon)", opacity: 0.5 }} />
+            <p className="section-label" style={{ color: "var(--neon)", opacity: 0.7 }}>
+              India&apos;s First AI-Powered Phygital Wellness Ecosystem — Indore
+            </p>
+          </motion.div>
+
+          {/* Main headline */}
+          <motion.h1
+            initial="hidden"
+            animate="show"
+            custom={0.15}
+            variants={fadeUp}
             style={{
               fontFamily:    "var(--font-display)",
               fontWeight:    900,
-              fontSize:      "clamp(3rem, 10vw, 6.5rem)",
-              lineHeight:    0.95,
+              fontSize:      "clamp(3.2rem, 10.5vw, 7rem)",
+              lineHeight:    0.92,
               letterSpacing: "-0.03em",
               textTransform: "uppercase",
               color:         "var(--text-primary)",
-              marginBottom:  "24px",
+              marginBottom:  "28px",
             }}
           >
             Break Your<br />
             Biological<br />
-            <span style={{ color: "var(--neon)" }}>Ceiling</span>
-          </h1>
+            <span
+              style={{
+                color:      "var(--neon)",
+                textShadow: "0 0 40px rgba(0,255,46,0.35), 0 0 80px rgba(0,255,46,0.12)",
+              }}
+            >
+              Ceiling
+            </span>
+          </motion.h1>
 
-          <p
-            className="animate-slideUp delay-200"
+          {/* Body copy */}
+          <motion.p
+            initial="hidden"
+            animate="show"
+            custom={0.28}
+            variants={fadeUp}
             style={{
               fontFamily:   "var(--font-body)",
-              fontWeight:   400,
+              fontWeight:   300,
               fontSize:     "clamp(0.9375rem, 2.5vw, 1.125rem)",
-              lineHeight:   1.65,
+              lineHeight:   1.7,
               color:        "var(--text-secondary)",
-              maxWidth:     "460px",
-              marginBottom: "16px",
+              maxWidth:     "440px",
+              marginBottom: "12px",
             }}
           >
             SpaceFit — Your Fitness Space. Where Health Meets Habit.
             AI-driven habit intelligence, elite coaching, and Indore&apos;s
             only Steam Room recovery — built for high-performance living.
-          </p>
+          </motion.p>
 
-          <p
-            className="animate-slideUp delay-300"
+          {/* Location line */}
+          <motion.p
+            initial="hidden"
+            animate="show"
+            custom={0.38}
+            variants={fadeUp}
             style={{
               fontFamily:    "var(--font-mono)",
-              fontSize:      "0.75rem",
-              letterSpacing: "0.12em",
+              fontSize:      "0.6875rem",
+              letterSpacing: "0.14em",
               color:         "var(--neon)",
               textTransform: "uppercase",
-              marginBottom:  "40px",
-              opacity:       0.8,
+              marginBottom:  "44px",
+              opacity:       0.55,
             }}
           >
             Sukhlia, Near MR-10 · Indore, MP
-          </p>
+          </motion.p>
 
-          {/* CTAs */}
-          <div
-            className="animate-slideUp delay-400"
+          {/* CTA row */}
+          <motion.div
+            initial="hidden"
+            animate="show"
+            custom={0.5}
+            variants={fadeUp}
             style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "16px" }}
           >
             <Link
               href="/contact"
               className="btn-primary"
-              style={{ padding: "14px 32px", fontSize: "0.9375rem" }}
             >
               Get a Tour
             </Link>
@@ -179,16 +212,18 @@ export default function Hero({ className }: { className?: string }) {
             >
               <span
                 style={{
-                  width:          "44px",
-                  height:         "44px",
-                  borderRadius:   "50%",
-                  border:         "1px solid rgba(255,255,255,0.2)",
-                  background:     "rgba(255,255,255,0.05)",
-                  display:        "flex",
-                  alignItems:     "center",
-                  justifyContent: "center",
-                  flexShrink:     0,
-                  transition:     "border-color 0.3s, background 0.3s",
+                  width:           "44px",
+                  height:          "44px",
+                  borderRadius:    "50%",
+                  border:          "1px solid rgba(0,255,46,0.2)",
+                  background:      "rgba(0,255,46,0.04)",
+                  backdropFilter:  "blur(6px)",
+                  display:         "flex",
+                  alignItems:      "center",
+                  justifyContent:  "center",
+                  flexShrink:      0,
+                  transition:      "border-color 0.3s, background 0.3s",
+                  boxShadow:       "inset 0 1px 0 rgba(255,255,255,0.08)",
                 }}
               >
                 <PlayIcon />
@@ -197,7 +232,7 @@ export default function Hero({ className }: { className?: string }) {
                 style={{
                   fontFamily:    "var(--font-body)",
                   fontWeight:    500,
-                  fontSize:      "0.875rem",
+                  fontSize:      "0.8125rem",
                   letterSpacing: "0.08em",
                   textTransform: "uppercase",
                 }}
@@ -205,17 +240,68 @@ export default function Hero({ className }: { className?: string }) {
                 Explore Services
               </span>
             </Link>
-          </div>
+          </motion.div>
+
+          {/* Micro-badge row — social proof */}
+          <motion.div
+            initial="hidden"
+            animate="show"
+            custom={0.65}
+            variants={fadeUp}
+            style={{
+              display:    "flex",
+              alignItems: "center",
+              gap:        "20px",
+              marginTop:  "36px",
+              paddingTop: "28px",
+              borderTop:  "1px solid rgba(0,255,46,0.1)",
+            }}
+          >
+            {[
+              { val: "351+", lbl: "Target Members" },
+              { val: "4+",   lbl: "Expert Coaches" },
+              { val: "98%",  lbl: "Satisfaction" },
+            ].map((s) => (
+              <div key={s.lbl} style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                <span
+                  style={{
+                    fontFamily:    "var(--font-display)",
+                    fontWeight:    800,
+                    fontSize:      "clamp(1.3rem, 3vw, 1.75rem)",
+                    letterSpacing: "-0.02em",
+                    color:         "var(--text-primary)",
+                    lineHeight:    1,
+                  }}
+                >
+                  {s.val}
+                </span>
+                <span
+                  style={{
+                    fontFamily:    "var(--font-mono)",
+                    fontSize:      "0.5625rem",
+                    letterSpacing: "0.1em",
+                    color:         "var(--text-tertiary)",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {s.lbl}
+                </span>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </div>
 
       {/* Scroll indicator — desktop only */}
-      <div
+      <motion.div
         aria-hidden="true"
-        className="scroll-bounce hero-scroll-indicator"
+        className="hero-scroll-indicator scroll-bounce"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4, duration: 0.7 }}
         style={{
           position:      "absolute",
-          bottom:        "100px",
+          bottom:        "96px",
           left:          "50%",
           transform:     "translateX(-50%)",
           flexDirection: "column",
@@ -228,17 +314,19 @@ export default function Hero({ className }: { className?: string }) {
         <span
           style={{
             fontFamily:    "var(--font-mono)",
-            fontSize:      "0.625rem",
-            letterSpacing: "0.15em",
+            fontSize:      "0.5625rem",
+            letterSpacing: "0.18em",
             textTransform: "uppercase",
+            color:         "var(--neon)",
+            opacity:       0.5,
           }}
         >
           Scroll
         </span>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M7 2v10M2 7l5 5 5-5" />
         </svg>
-      </div>
+      </motion.div>
 
       {/* Secondary nav bar */}
       <div
@@ -246,22 +334,22 @@ export default function Hero({ className }: { className?: string }) {
         style={{
           position:        "relative",
           zIndex:          10,
-          borderTop:       "1px solid var(--border-default)",
-          backgroundColor: "rgba(20,20,20,0.8)",
-          backdropFilter:  "blur(8px)",
+          borderTop:       "1px solid rgba(0,255,46,0.1)",
+          backgroundColor: "rgba(10,10,10,0.85)",
+          backdropFilter:  "blur(16px)",
         }}
       >
         <div
           style={{
-            maxWidth:        "1280px",
-            margin:          "0 auto",
-            padding:         "0 20px",
-            height:          "48px",
-            display:         "flex",
-            alignItems:      "center",
-            justifyContent:  "space-between",
-            overflowX:       "auto",
-            scrollbarWidth:  "none",
+            maxWidth:       "1280px",
+            margin:         "0 auto",
+            padding:        "0 20px",
+            height:         "48px",
+            display:        "flex",
+            alignItems:     "center",
+            justifyContent: "space-between",
+            overflowX:      "auto",
+            scrollbarWidth: "none",
           }}
         >
           {[
@@ -276,8 +364,8 @@ export default function Hero({ className }: { className?: string }) {
               style={{
                 fontFamily:     "var(--font-body)",
                 fontWeight:     500,
-                fontSize:       "0.75rem",
-                letterSpacing:  "0.08em",
+                fontSize:       "0.6875rem",
+                letterSpacing:  "0.1em",
                 textTransform:  "uppercase",
                 color:          "var(--text-tertiary)",
                 textDecoration: "none",
@@ -285,7 +373,7 @@ export default function Hero({ className }: { className?: string }) {
                 transition:     "color 0.2s ease-out",
                 flexShrink:     0,
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--neon)")}
               onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-tertiary)")}
             >
               {item.label}
@@ -295,15 +383,14 @@ export default function Hero({ className }: { className?: string }) {
       </div>
 
       <style>{`
-        .hero-section {
-          min-height: auto;
-        }
+        .hero-section { min-height: auto; }
+
         .scroll-bounce {
-          animation: heroBounce 1.5s ease-in-out infinite;
+          animation: heroBounce 1.8s ease-in-out infinite;
         }
         @keyframes heroBounce {
           0%, 100% { transform: translateX(-50%) translateY(0); }
-          50%       { transform: translateX(-50%) translateY(6px); }
+          50%       { transform: translateX(-50%) translateY(7px); }
         }
 
         /* ── Mobile ── */
@@ -311,7 +398,7 @@ export default function Hero({ className }: { className?: string }) {
         .hero-scroll-indicator { display: none; }
 
         .hero-content {
-          padding: 72px 20px 40px !important;
+          padding: 80px 20px 48px !important;
           align-items: flex-start !important;
           flex: none !important;
         }
@@ -333,9 +420,7 @@ export default function Hero({ className }: { className?: string }) {
             align-items: center !important;
             flex: 1 !important;
           }
-          .hero-text-block {
-            max-width: 46%;
-          }
+          .hero-text-block { max-width: 46%; }
         }
 
         /* ── Desktop ── */

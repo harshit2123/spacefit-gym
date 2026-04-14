@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 interface PlanProps {
   name:        string;
@@ -47,64 +48,76 @@ const plans: PlanProps[] = [
   },
 ];
 
+function CheckIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" style={{ flexShrink: 0, marginTop: "2px" }}>
+      <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function PricingCard({ name, price, features, highlighted }: PlanProps) {
   return (
-    <div
-      className="pricing-card"
+    <motion.div
+      whileHover={{ y: highlighted ? -6 : -4 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
       style={{
-        borderRadius:    "20px",
-        border:          highlighted ? "2px solid var(--neon)" : "1px solid var(--border-default)",
-        backgroundColor: highlighted ? "#0d1f00" : "var(--bg-tertiary)",
+        borderRadius:    "16px",
+        border:          highlighted
+          ? "1px solid rgba(0,255,46,0.35)"
+          : "1px solid rgba(0,255,46,0.1)",
+        backgroundColor: highlighted ? "#091209" : "var(--bg-secondary)",
         padding:         "32px 24px",
         display:         "flex",
         flexDirection:   "column",
         gap:             "20px",
         boxShadow:       highlighted
-          ? "0 0 0 1px var(--neon), 0 0 24px rgba(0,255,46,0.15), var(--shadow-lg)"
-          : "var(--shadow-md)",
+          ? "0 0 0 1px rgba(0,255,46,0.1), 0 0 40px rgba(0,255,46,0.1), var(--shadow-xl)"
+          : "var(--shadow-lg), inset 0 1px 0 rgba(0,255,46,0.04)",
         position:        "relative",
-        transition:      "transform 0.3s ease-out, box-shadow 0.3s ease-out",
-      }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)";
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+        overflow:        "visible",
+        paddingTop:      highlighted ? "44px" : "32px",
       }}
     >
+      {/* Top inner refraction border */}
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "1px", borderRadius: "16px 16px 0 0", background: highlighted ? "rgba(0,255,46,0.3)" : "rgba(0,255,46,0.08)" }} />
+
       {highlighted && (
         <div
           style={{
-            position:      "absolute",
-            top:           "-14px",
-            left:          "50%",
-            transform:     "translateX(-50%)",
-            background:    "var(--neon)",
-            color:         "var(--text-inverse)",
-            fontFamily:    "var(--font-body)",
-            fontWeight:    700,
-            fontSize:      "0.6875rem",
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-            padding:       "4px 14px",
-            borderRadius:  "9999px",
-            whiteSpace:    "nowrap",
+            position:        "absolute",
+            top:             "-14px",
+            left:            "50%",
+            transform:       "translateX(-50%)",
+            background:      "linear-gradient(135deg, var(--neon) 0%, var(--neon-dark) 100%)",
+            color:           "#050505",
+            fontFamily:      "var(--font-mono)",
+            fontWeight:      700,
+            fontSize:        "0.5625rem",
+            letterSpacing:   "0.14em",
+            textTransform:   "uppercase",
+            padding:         "5px 16px",
+            borderRadius:    "9999px",
+            whiteSpace:      "nowrap",
+            boxShadow:       "0 4px 12px rgba(0,255,46,0.3)",
           }}
         >
           Most Popular
         </div>
       )}
 
+      {/* Name + price */}
       <div>
         <p
           style={{
-            fontFamily:    "var(--font-display)",
-            fontWeight:    700,
-            fontSize:      "1.125rem",
-            letterSpacing: "0.04em",
+            fontFamily:    "var(--font-mono)",
+            fontWeight:    400,
+            fontSize:      "0.6875rem",
+            letterSpacing: "0.12em",
             textTransform: "uppercase",
-            color:         highlighted ? "var(--neon)" : "var(--text-primary)",
-            marginBottom:  "12px",
+            color:         "var(--neon)",
+            marginBottom:  "14px",
+            opacity:       0.9,
           }}
         >
           {name}
@@ -113,10 +126,10 @@ function PricingCard({ name, price, features, highlighted }: PlanProps) {
           <span
             style={{
               fontFamily:    "var(--font-display)",
-              fontWeight:    800,
-              fontSize:      "clamp(2.5rem, 6vw, 3.5rem)",
+              fontWeight:    900,
+              fontSize:      "clamp(2.8rem, 6vw, 3.8rem)",
               lineHeight:    1,
-              letterSpacing: "-0.02em",
+              letterSpacing: "-0.03em",
               color:         "var(--text-primary)",
             }}
           >
@@ -125,10 +138,11 @@ function PricingCard({ name, price, features, highlighted }: PlanProps) {
           <span
             style={{
               fontFamily:    "var(--font-body)",
-              fontWeight:    500,
-              fontSize:      "0.9375rem",
+              fontWeight:    400,
+              fontSize:      "0.875rem",
               color:         "var(--text-tertiary)",
-              paddingBottom: "4px",
+              paddingBottom: "6px",
+              letterSpacing: "0.04em",
             }}
           >
             /yr
@@ -136,8 +150,10 @@ function PricingCard({ name, price, features, highlighted }: PlanProps) {
         </div>
       </div>
 
-      <div style={{ height: "1px", backgroundColor: "rgba(255,255,255,0.08)" }} />
+      {/* Divider */}
+      <div style={{ height: "1px", background: highlighted ? "rgba(0,255,46,0.12)" : "rgba(0,255,46,0.05)" }} />
 
+      {/* Features */}
       <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "10px", flex: 1 }}>
         {features.map((f) => (
           <li
@@ -147,12 +163,15 @@ function PricingCard({ name, price, features, highlighted }: PlanProps) {
               alignItems: "flex-start",
               gap:        "10px",
               fontFamily: "var(--font-body)",
-              fontSize:   "0.9rem",
+              fontWeight: 300,
+              fontSize:   "0.875rem",
               color:      "var(--text-secondary)",
-              lineHeight: 1.4,
+              lineHeight: 1.45,
             }}
           >
-            <span style={{ color: "var(--neon)", flexShrink: 0, marginTop: "1px" }}>✓</span>
+            <span style={{ color: "var(--neon)", opacity: 0.8 }}>
+              <CheckIcon />
+            </span>
             {f}
           </li>
         ))}
@@ -165,42 +184,52 @@ function PricingCard({ name, price, features, highlighted }: PlanProps) {
       >
         Get Started
       </Link>
-    </div>
+    </motion.div>
   );
 }
 
 export default function Pricing({ className }: { className?: string }) {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const items = el.querySelectorAll(".reveal");
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("in-view"); }),
-      { threshold: 0.1 }
-    );
-    items.forEach((i) => obs.observe(i));
-    return () => obs.disconnect();
-  }, []);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const headerInView = useInView(headerRef, { once: true, margin: "-80px" });
 
   return (
     <section
-      ref={sectionRef}
       id="pricing"
       className={`pricing-section ${className ?? ""}`}
-      style={{ backgroundColor: "var(--bg-secondary)", padding: "80px 20px" }}
+      style={{ backgroundColor: "var(--bg-secondary)", padding: "80px 20px", position: "relative", overflow: "hidden" }}
     >
-      <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-        <div className="reveal" style={{ textAlign: "center", marginBottom: "48px" }}>
-          <p className="section-label" style={{ marginBottom: "12px" }}>03 / Membership</p>
-          <h2
+      {/* Ambient glow */}
+      <div
+        aria-hidden="true"
+        style={{
+          position:      "absolute",
+          inset:         0,
+          background:    "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0,255,46,0.04) 0%, transparent 65%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      <div style={{ maxWidth: "1280px", margin: "0 auto", position: "relative", zIndex: 1 }}>
+        <div ref={headerRef} style={{ textAlign: "center", marginBottom: "56px" }}>
+          <motion.p
+            className="section-label"
+            style={{ marginBottom: "14px", display: "block" }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+          >
+            03 / Membership
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
             style={{
               fontFamily:    "var(--font-display)",
               fontWeight:    900,
-              fontSize:      "clamp(2.2rem, 7vw, 4rem)",
-              lineHeight:    1,
-              letterSpacing: "-0.02em",
+              fontSize:      "clamp(2.4rem, 7vw, 4.5rem)",
+              lineHeight:    0.95,
+              letterSpacing: "-0.03em",
               textTransform: "uppercase",
               color:         "var(--text-primary)",
               marginBottom:  "16px",
@@ -208,38 +237,51 @@ export default function Pricing({ className }: { className?: string }) {
           >
             Simple{" "}
             <span style={{ color: "var(--neon)" }}>Pricing</span>
-          </h2>
-          <p
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={headerInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
             style={{
               fontFamily: "var(--font-body)",
+              fontWeight: 300,
               fontSize:   "0.9375rem",
               color:      "var(--text-secondary)",
               maxWidth:   "480px",
               margin:     "0 auto",
-              lineHeight: 1.6,
+              lineHeight: 1.65,
             }}
           >
             Annual membership. No hidden fees. Breakeven at 351 members — join the founding cohort.
-          </p>
+          </motion.p>
         </div>
 
-        <div className="reveal pricing-grid">
+        <motion.div
+          className="pricing-grid"
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
           {plans.map((p) => (
             <PricingCard key={p.name} {...p} />
           ))}
-        </div>
+        </motion.div>
 
-        <div
-          className="reveal"
-          style={{ textAlign: "center", marginTop: "40px" }}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          style={{ textAlign: "center", marginTop: "44px" }}
         >
-          <p style={{ fontFamily: "var(--font-body)", fontSize: "0.875rem", color: "var(--text-tertiary)", marginBottom: "16px" }}>
-            Corporate wellness packages available. Blended ARPU ₹16,000/yr.
+          <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.6875rem", letterSpacing: "0.1em", color: "var(--text-tertiary)", marginBottom: "18px", textTransform: "uppercase" }}>
+            Corporate wellness packages available · Blended ARPU ₹16,000/yr
           </p>
           <Link href="/contact" className="btn-secondary">
             Contact Us
           </Link>
-        </div>
+        </motion.div>
       </div>
 
       <style>{`
@@ -249,9 +291,7 @@ export default function Pricing({ className }: { className?: string }) {
           gap: 20px;
         }
         @media (min-width: 768px) {
-          .pricing-section {
-            padding: 96px 32px;
-          }
+          .pricing-section { padding: 96px 32px; }
           .pricing-grid {
             display: flex;
             flex-direction: row;
@@ -259,25 +299,15 @@ export default function Pricing({ className }: { className?: string }) {
             align-items: stretch;
             gap: 20px;
           }
-          .pricing-card {
+          .pricing-grid > * {
             flex: 1 1 0;
             min-width: 0;
           }
-          .pricing-card:nth-child(2) {
-            max-width: unset;
-            margin: 0;
-          }
         }
         @media (min-width: 1024px) {
-          .pricing-section {
-            padding: 96px 40px;
-          }
-          .pricing-grid {
-            gap: 24px;
-          }
-          .pricing-card {
-            max-width: 420px;
-          }
+          .pricing-section { padding: 96px 40px; }
+          .pricing-grid { gap: 24px; }
+          .pricing-grid > * { max-width: 420px; }
         }
       `}</style>
     </section>

@@ -1,34 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const locations = [
-  { city: "Sukhlia, Indore",       country: "HQ · 2026",      active: true  },
-  { city: "Vijay Nagar, Indore",   country: "Centre 2 · 2028", active: false },
-  { city: "Bhopal",                country: "Centre 3 · 2029", active: false },
-  { city: "Jaipur",                country: "Centre 4 · 2030", active: false },
-  { city: "Nagpur",                country: "Centre 5 · 2030", active: false },
+  { city: "Sukhlia, Indore",       country: "HQ · 2026",       active: true  },
+  { city: "Vijay Nagar, Indore",   country: "Centre 2 · 2028",  active: false },
+  { city: "Bhopal",                country: "Centre 3 · 2029",  active: false },
+  { city: "Jaipur",                country: "Centre 4 · 2030",  active: false },
+  { city: "Nagpur",                country: "Centre 5 · 2030",  active: false },
 ];
 
 export default function GlobalPresence({ className }: { className?: string }) {
-  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const headerInView = useInView(headerRef, { once: true, margin: "-80px" });
 
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const items = el.querySelectorAll(".reveal");
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("in-view"); }),
-      { threshold: 0.1 }
-    );
-    items.forEach((i) => obs.observe(i));
-    return () => obs.disconnect();
-  }, []);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const gridInView = useInView(gridRef, { once: true, margin: "-60px" });
 
   return (
     <section
-      ref={sectionRef}
       id="global"
       className={`global-section ${className ?? ""}`}
       style={{
@@ -38,21 +30,11 @@ export default function GlobalPresence({ className }: { className?: string }) {
         overflow:        "hidden",
       }}
     >
-      {/* Radial neon glow */}
-      <div
-        aria-hidden="true"
-        style={{
-          position:      "absolute",
-          inset:         0,
-          background:    "radial-gradient(ellipse 80% 60% at 50% -20%, rgba(0,255,46,0.08) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
 
       <div style={{ maxWidth: "1280px", margin: "0 auto", position: "relative", zIndex: 1 }}>
         {/* Header */}
         <div
-          className="reveal"
+          ref={headerRef}
           style={{
             display:        "flex",
             justifyContent: "space-between",
@@ -62,14 +44,18 @@ export default function GlobalPresence({ className }: { className?: string }) {
             gap:            "16px",
           }}
         >
-          <div>
-            <p className="section-label" style={{ marginBottom: "12px" }}>05 / Expansion Roadmap</p>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <p className="section-label" style={{ marginBottom: "14px" }}>05 / Expansion Roadmap</p>
             <h2
               style={{
                 fontFamily:    "var(--font-display)",
                 fontWeight:    900,
-                fontSize:      "clamp(2.2rem, 8vw, 5.5rem)",
-                lineHeight:    0.95,
+                fontSize:      "clamp(2.4rem, 8vw, 5.5rem)",
+                lineHeight:    0.92,
                 letterSpacing: "-0.03em",
                 textTransform: "uppercase",
                 color:         "var(--text-primary)",
@@ -78,42 +64,52 @@ export default function GlobalPresence({ className }: { className?: string }) {
               Built in Indore.<br />
               <span style={{ color: "var(--neon)" }}>Scaling India.</span>
             </h2>
-          </div>
-          <Link href="/contact" className="btn-primary" style={{ flexShrink: 0 }}>
-            Visit Us
-          </Link>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={headerInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <Link href="/contact" className="btn-primary" style={{ flexShrink: 0 }}>
+              Visit Us
+            </Link>
+          </motion.div>
         </div>
 
         {/* Locations grid */}
-        <div
-          className="reveal expansion-grid"
-        >
+        <div ref={gridRef} className="expansion-grid">
           {locations.map((loc, i) => (
-            <div
+            <motion.div
               key={loc.city}
+              initial={{ opacity: 0, y: 28 }}
+              animate={gridInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] }}
               style={{
-                padding:         "24px 20px",
-                borderRadius:    "16px",
-                border:          loc.active ? "1px solid rgba(0,255,46,0.4)" : "1px solid var(--border-default)",
-                backgroundColor: loc.active ? "#0d1f00" : "var(--bg-tertiary)",
-                transition:      "border-color 0.3s, background 0.3s, transform 0.2s",
-                animationDelay:  `${i * 60}ms`,
+                padding:         "22px 20px",
+                borderRadius:    "12px",
+                border:          loc.active
+                  ? "1px solid rgba(0,255,46,0.2)"
+                  : "1px solid var(--border-default)",
+                backgroundColor: "var(--bg-secondary)",
+                transition:      "border-color 0.3s, background 0.3s, transform 0.25s, box-shadow 0.3s",
                 position:        "relative",
                 overflow:        "hidden",
+                boxShadow:       "inset 0 1px 0 rgba(255,255,255,0.03)",
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLElement;
-                el.style.borderColor     = "rgba(0,255,46,0.5)";
-                el.style.backgroundColor = "#0d1f00";
-                el.style.transform       = "translateY(-2px)";
+                el.style.borderColor = loc.active ? "rgba(0,255,46,0.35)" : "rgba(0,255,46,0.12)";
+                el.style.transform   = "translateY(-3px)";
+                el.style.boxShadow   = "var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.05)";
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget as HTMLElement;
-                el.style.borderColor     = loc.active ? "rgba(0,255,46,0.4)" : "var(--border-default)";
-                el.style.backgroundColor = loc.active ? "#0d1f00" : "var(--bg-tertiary)";
-                el.style.transform       = "translateY(0)";
+                el.style.borderColor = loc.active ? "rgba(0,255,46,0.2)" : "var(--border-default)";
+                el.style.transform   = "translateY(0)";
+                el.style.boxShadow   = "inset 0 1px 0 rgba(255,255,255,0.03)";
               }}
             >
+              {/* Active dot */}
               {loc.active && (
                 <span style={{
                   position:        "absolute",
@@ -123,18 +119,17 @@ export default function GlobalPresence({ className }: { className?: string }) {
                   height:          "6px",
                   borderRadius:    "50%",
                   backgroundColor: "var(--neon)",
-                  boxShadow:       "0 0 8px var(--neon)",
                 }} />
               )}
               <p
                 style={{
                   fontFamily:    "var(--font-mono)",
-                  fontSize:      "0.625rem",
-                  letterSpacing: "0.1em",
+                  fontSize:      "0.5625rem",
+                  letterSpacing: "0.12em",
                   color:         "var(--neon)",
                   textTransform: "uppercase",
                   marginBottom:  "6px",
-                  opacity:       loc.active ? 1 : 0.5,
+                  opacity:       loc.active ? 0.9 : 0.45,
                 }}
               >
                 {loc.country}
@@ -152,7 +147,7 @@ export default function GlobalPresence({ className }: { className?: string }) {
               >
                 {loc.city}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -161,19 +156,13 @@ export default function GlobalPresence({ className }: { className?: string }) {
         .expansion-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 12px;
+          gap: 10px;
         }
-        /* HQ card spans full width on mobile */
-        .expansion-grid > div:first-child {
-          grid-column: span 2;
-        }
+        .expansion-grid > div:first-child { grid-column: span 2; }
+
         @media (min-width: 640px) {
-          .expansion-grid {
-            grid-template-columns: repeat(3, 1fr);
-          }
-          .expansion-grid > div:first-child {
-            grid-column: span 1;
-          }
+          .expansion-grid { grid-template-columns: repeat(3, 1fr); }
+          .expansion-grid > div:first-child { grid-column: span 1; }
         }
         @media (min-width: 768px) {
           .global-section { padding: 96px 32px; }
@@ -182,11 +171,9 @@ export default function GlobalPresence({ className }: { className?: string }) {
           .global-section { padding: 96px 40px; }
           .expansion-grid {
             grid-template-columns: repeat(5, 1fr);
-            gap: 16px;
+            gap: 14px;
           }
-          .expansion-grid > div:first-child {
-            grid-column: span 1;
-          }
+          .expansion-grid > div:first-child { grid-column: span 1; }
         }
       `}</style>
     </section>
